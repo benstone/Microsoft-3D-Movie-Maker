@@ -30,6 +30,8 @@ cmake_dependent_option(3DMM_PACKAGE_ZIP "Generate a portable ZIP" ON "BUILD_PACK
 set(3DMM_AUDIOMAN_LIBRARY "Decompilation" CACHE STRING "AudioMan library to use for mixing wave sounds")
 set_property(CACHE 3DMM_AUDIOMAN_LIBRARY PROPERTY STRINGS "Original" "Decompilation" "Stub")
 
+option(ENABLE_FAST_STARTUP "Do not wait for splash screen on startup" OFF)
+
 # Optional Tools
 find_package(ClangTidy)
 find_package(CCache)
@@ -379,6 +381,15 @@ target_chomp_sources(studio
   "${PROJECT_SOURCE_DIR}/src/help/help.cht"
   "${PROJECT_SOURCE_DIR}/src/shared/shared.cht"
   "${PROJECT_SOURCE_DIR}/src/shared/sharecd.cht")
+
+# TODO: Make this option configurable at runtime
+if(ENABLE_FAST_STARTUP)
+  target_compile_definitions(
+    studio
+    PRIVATE
+    ENABLE_FAST_STARTUP
+  )
+endif()
 
 target_link_libraries(studio PRIVATE engine)
 set_property(TARGET studio PROPERTY OUTPUT_NAME 3dmovie)

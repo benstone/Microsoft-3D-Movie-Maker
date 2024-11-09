@@ -315,8 +315,10 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
         goto LFail;
     }
 
+#ifndef ENABLE_FAST_STARTUP
     while (TsCurrent() - tsHomeLogo < kdtsHomeLogo)
         ; // spin until home logo has been up long enough
+#endif    // ENABLE_FAST_STARTUP
 
     if (!_FShowSplashScreen())
     {
@@ -326,12 +328,14 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
     }
     tsSplashScreen = TsCurrent();
 
+#ifndef ENABLE_FAST_STARTUP
     if (!_FPlaySplashSound())
     {
         _FGenericError(PszLit("_FPlaySplashSound"));
         _fDontReportInitFailure = fTrue;
         goto LFail;
     }
+#endif // ENABLE_FAST_STARTUP
 
     if (!_FGetUserName())
     {
@@ -361,8 +365,10 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
         goto LFail;
     }
 
+#ifndef ENABLE_FAST_STARTUP
     while (TsCurrent() - tsSplashScreen < kdtsSplashScreen)
         ;                   // spin until splash screen has been up long enough
+#endif                      // ENABLE_FAST_STARTUP
     Pkwa()->SetMbmp(pvNil); // bring down splash screen
 
     // If the user specified a doc on the command line, go straight
