@@ -16,9 +16,9 @@ if(MSVC)
 endif()
 
 include(CMakeDependentOption)
+include(FetchContent)
 include(TargetChompSources)
 
-find_package(AudioMan)
 find_package(BRender REQUIRED)
 
 # Options
@@ -26,6 +26,9 @@ option(BUILD_PACKAGES "Build packages for 3DMM" ON)
 
 cmake_dependent_option(3DMM_PACKAGE_WIX "Generate an MSI via WiX" ON "BUILD_PACKAGES AND DEFINED ENV{WIX}" OFF)
 cmake_dependent_option(3DMM_PACKAGE_ZIP "Generate a portable ZIP" ON "BUILD_PACKAGES" OFF)
+
+set(3DMM_AUDIOMAN_LIBRARY "Original" CACHE STRING "AudioMan library to use for mixing wave sounds")
+set_property(CACHE 3DMM_AUDIOMAN_LIBRARY PROPERTY STRINGS "Original" "Decompilation" "Stub")
 
 # Optional Tools
 find_package(ClangTidy)
@@ -64,6 +67,44 @@ configure_file(
   "${PROJECT_BINARY_DIR}/inc/version.h"
 )
 
+# Select AudioMan library
+if ("${3DMM_AUDIOMAN_LIBRARY}" STREQUAL "Original")
+
+    # Use original static library
+    find_package(AudioMan)
+
+elseif("${3DMM_AUDIOMAN_LIBRARY}" STREQUAL "Decompilation")
+
+    # Use decompiled AudioMan
+    FetchContent_Declare(
+        AudioManDecomp
+        GIT_REPOSITORY https://github.com/benstone/audioman-decomp
+        GIT_TAG main
+    )
+
+    set(AUDIOMAN_BUILD_DEMO_APPS OFF)
+    set(AUDIOMAN_USE_DEBUG_ALLOCATOR OFF)
+    FetchContent_MakeAvailable(AudioManDecomp)
+    add_library(3DMMForever::AudioMan ALIAS AudioMan)
+
+elseif("${3DMM_AUDIOMAN_LIBRARY}" STREQUAL "Stub")
+
+    # Use stub library
+    add_library(audioman)
+    add_library(3DMMForever::AudioMan ALIAS audioman)
+    target_include_directories(audioman PUBLIC
+        "${PROJECT_SOURCE_DIR}/kauai/src"
+    )
+    target_sources(audioman PRIVATE
+        "${PROJECT_SOURCE_DIR}/audioman/audioman.cpp"
+    )
+
+else()
+    message(FATAL_ERROR "Invalid AudioMan library selected: ${3DMM_AUDIOMAN_LIBRARY}")
+endif()
+
+
+
 # NOTE: kcdc-386 and kcd2-386 prevent cross compiling at this time.
 add_executable(kcdc-386 EXCLUDE_FROM_ALL)
 target_sources(kcdc-386 PRIVATE "${PROJECT_SOURCE_DIR}/kauai/src/kcdc_386.c")
@@ -72,17 +113,6 @@ target_include_directories(kcdc-386 PRIVATE $<TARGET_PROPERTY:kauai,INCLUDE_DIRE
 add_executable(kcd2-386 EXCLUDE_FROM_ALL)
 target_sources(kcd2-386 PRIVATE "${PROJECT_SOURCE_DIR}/kauai/src/kcd2_386.c")
 target_include_directories(kcd2-386 PRIVATE $<TARGET_PROPERTY:kauai,INCLUDE_DIRECTORIES>)
-
-if (NOT TARGET 3DMMForever::AudioMan)
-  add_library(audioman)
-  add_library(3DMMForever::AudioMan ALIAS audioman)
-  target_include_directories(audioman PUBLIC
-      "${PROJECT_SOURCE_DIR}/kauai/src"
-  )
-  target_sources(audioman PRIVATE
-      "${PROJECT_SOURCE_DIR}/audioman/audioman.cpp"
-  )
-endif()
 
 add_executable(chelp WIN32 EXCLUDE_FROM_ALL)
 target_sources(chelp PRIVATE
