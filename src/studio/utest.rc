@@ -189,7 +189,7 @@ BEGIN
 #endif
     LTEXT           "(c) and (p) 1995 Microsoft Corporation.  All rights reserved.",
                     IDC_STATIC,10,27,192,8
-    EDITTEXT        IDC_EDIT2,11,6,149,13,ES_AUTOHSCROLL | ES_READONLY | NOT 
+    EDITTEXT        IDC_EDIT2,10,6,192,13,ES_AUTOHSCROLL | ES_READONLY | NOT
                     WS_BORDER
     GROUPBOX        "Display Options",IDC_STATIC,10,74,170,49
     CONTROL         "Make these the default settings",IDC_CHECK1,"Button",

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(3DMMForever LANGUAGES CXX C VERSION 0.2)
+project(3DMMForever LANGUAGES CXX C VERSION 0.2.0)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
@@ -51,6 +51,18 @@ add_compile_definitions(
 if (NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   message(FATAL_ERROR "Cannot compile for 64-bit yet")
 endif()
+
+# Configure version header
+execute_process(
+  COMMAND git describe --tags
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_VERSION
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+configure_file(
+  "${PROJECT_SOURCE_DIR}/inc/version.h.in"
+  "${PROJECT_BINARY_DIR}/inc/version.h"
+)
 
 # NOTE: kcdc-386 and kcd2-386 prevent cross compiling at this time.
 add_executable(kcdc-386 EXCLUDE_FROM_ALL)
@@ -326,6 +338,7 @@ target_sources(studio
 )
 target_include_directories(studio
   PUBLIC $<TARGET_PROPERTY:engine,INCLUDE_DIRECTORIES>
+  "${PROJECT_BINARY_DIR}/inc"
   "${PROJECT_SOURCE_DIR}/src")
 target_chomp_sources(studio
   "${PROJECT_SOURCE_DIR}/src/studio/utest.cht"

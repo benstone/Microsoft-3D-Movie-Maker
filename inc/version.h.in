@@ -1,0 +1,9 @@
+/* Copyright (c) Microsoft Corporation.
+   Licensed under the MIT License. */
+
+#define rmj @3DMMForever_VERSION_MAJOR@
+#define rmm @3DMMForever_VERSION_MINOR@
+#define rup @3DMMForever_VERSION_PATCH@
+#define szGitTag "@GIT_VERSION@"
+#define szVerName ""
+#define szVerUser "SHEILA"

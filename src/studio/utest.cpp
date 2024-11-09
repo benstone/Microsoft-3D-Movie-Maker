@@ -3277,7 +3277,7 @@ bool APP::FCmdInfo(PCMD pcmd)
 #ifdef DEBUG
     stn.FAppendSz(PszLit(" (Debug)"));
 #endif // DEBUG
-    stnT.FFormatSz(PszLit(" %d.%d.%04d"), rmj, rmm, rup);
+    stnT.FFormatSz(PszLit(" %d.%d.%d (%z)"), rmj, rmm, rup, PszLit(szGitTag));
     stn.FAppendStn(&stnT);
     pdlg->FPutStn(iditProductNameInfo, &stn);
 
