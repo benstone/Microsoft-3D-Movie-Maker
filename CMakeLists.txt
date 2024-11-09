@@ -348,22 +348,32 @@ set_property(
     TARGET studio
     PROPERTY 3DMM_SAMPLES
     ${studio-samples}
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/BONGO.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/BOOOOOO.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/CITYTOUR.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/GRAVEYRD.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/HAUNTED.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/HOSPITAL.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/JUNGLE.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/MESSAGE.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/SPACE.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/SPROG.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/TERROR.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/THEBOOK.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/THELODGE.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/THETHIEF.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/VENUS31.3MM"
-    "${PROJECT_SOURCE_DIR}/cd3/SAMPLES/WHERE.3MM"
+    "${PROJECT_SOURCE_DIR}/samples/bongo.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/boooooo.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/citytour.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/graveyrd.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/haunted.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/hospital.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/jungle.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/message.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/space.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/sprog.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/terror.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/thebook.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/thelodge.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/thethief.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/venus31.3mm"
+    "${PROJECT_SOURCE_DIR}/samples/where.3mm"
+)
+set_property(
+    TARGET studio
+    PROPERTY 3DMM_PROJECTS
+    "${PROJECT_SOURCE_DIR}/projects/bongo.3mm"
+    "${PROJECT_SOURCE_DIR}/projects/bridge.3mm"
+    "${PROJECT_SOURCE_DIR}/projects/dialogue.3mm"
+    "${PROJECT_SOURCE_DIR}/projects/jog.3mm"
+    "${PROJECT_SOURCE_DIR}/projects/mummy.3mm"
+    "${PROJECT_SOURCE_DIR}/projects/surprise.3mm"
 )
 
 # Please pay attention to the ending / in each DIRECTORY declaration. It
@@ -371,14 +381,16 @@ set_property(
 install(TARGETS studio RUNTIME DESTINATION .)
 # HACK(bruxisma): This is due to UTEST.CHT not generating 3DMOVIE.CHK
 #                 Renaming it to 3DMOVIE.CHT would resolve this.
-install(FILES $<FILTER:$<TARGET_PROPERTY:studio,CHOMPED_CHUNKS>,EXCLUDE,.+UTEST[.]chk$>
+install(FILES $<FILTER:$<TARGET_PROPERTY:studio,CHOMPED_CHUNKS>,EXCLUDE,.+utest[.]chk$>
   DESTINATION "Microsoft Kids/3D Movie Maker")
-install(FILES $<FILTER:$<TARGET_PROPERTY:studio,CHOMPED_CHUNKS>,INCLUDE,.+UTEST[.]chk$>
+install(FILES $<FILTER:$<TARGET_PROPERTY:studio,CHOMPED_CHUNKS>,INCLUDE,.+utest[.]chk$>
   RENAME 3dmovie.chk
   DESTINATION "Microsoft Kids/3D Movie Maker")
-install(FILES $<TARGET_PROPERTY:studio,3DMM_SAMPLES>
+install(FILES $<TARGET_PROPERTY:studio,3DMM_PROJECTS>
   DESTINATION "Microsoft Kids/Users/Melanie")
-install(DIRECTORY "${PROJECT_SOURCE_DIR}/cd9/"
+install(FILES $<TARGET_PROPERTY:studio,3DMM_SAMPLES>
+  DESTINATION "Microsoft Kids/Users/McZee")
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/content-files/"
   DESTINATION "Microsoft Kids/3D Movie Maker")
 
 # CPack must be included *last*, which is antithetical to how most CMake
