@@ -27,7 +27,7 @@ option(BUILD_PACKAGES "Build packages for 3DMM" ON)
 cmake_dependent_option(3DMM_PACKAGE_WIX "Generate an MSI via WiX" ON "BUILD_PACKAGES AND DEFINED ENV{WIX}" OFF)
 cmake_dependent_option(3DMM_PACKAGE_ZIP "Generate a portable ZIP" ON "BUILD_PACKAGES" OFF)
 
-set(3DMM_AUDIOMAN_LIBRARY "Original" CACHE STRING "AudioMan library to use for mixing wave sounds")
+set(3DMM_AUDIOMAN_LIBRARY "Decompilation" CACHE STRING "AudioMan library to use for mixing wave sounds")
 set_property(CACHE 3DMM_AUDIOMAN_LIBRARY PROPERTY STRINGS "Original" "Decompilation" "Stub")
 
 # Optional Tools
