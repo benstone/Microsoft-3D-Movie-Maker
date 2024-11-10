@@ -312,7 +312,7 @@ void MoveElement(void *prgv, long cbElement, long ivSrc, long ivTarget)
 /***************************************************************************
     Check for equality of two blocks.
 ***************************************************************************/
-bool FEqualRgb(void *pv1, void *pv2, long cb)
+bool FEqualRgb(const void *pv1, const void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
@@ -325,7 +325,7 @@ bool FEqualRgb(void *pv1, void *pv2, long cb)
     Compare the two buffers byte for byte and return a the number of bytes
     that match.
 ***************************************************************************/
-long CbEqualRgb(void *pv1, void *pv2, long cb)
+long CbEqualRgb(const void *pv1, const void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
@@ -414,7 +414,7 @@ LHit:
     Compare the two buffers byte for byte and return an fcmp indicating
     their relationship to each other.
 ***************************************************************************/
-ulong FcmpCompareRgb(void *pv1, void *pv2, long cb)
+ulong FcmpCompareRgb(const void *pv1, const void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
@@ -432,7 +432,7 @@ ulong FcmpCompareRgb(void *pv1, void *pv2, long cb)
 /***************************************************************************
     Copy data without overlap.
 ****************************************************************************/
-void CopyPb(void *pv1, void *pv2, long cb)
+void CopyPb(const void *pv1, void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
@@ -445,7 +445,7 @@ void CopyPb(void *pv1, void *pv2, long cb)
 /***************************************************************************
     Copy data with possible overlap.
 ***************************************************************************/
-void BltPb(void *pv1, void *pv2, long cb)
+void BltPb(const void *pv1, void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
