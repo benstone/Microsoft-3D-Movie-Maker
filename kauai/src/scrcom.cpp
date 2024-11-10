@@ -2045,7 +2045,14 @@ bool SCCB::_FHandleCst(long ietn)
         {
             if (icstd-- <= 0)
             {
-                _ReportError(plwLabel == &cstd.lwLabel1 ? PszLit("unexpected Continue") : PszLit("unexpected Break"));
+                if (plwLabel == &cstd.lwLabel1)
+                {
+                    _ReportError(PszLit("unexpected Continue"));
+                }
+                else
+                {
+                    _ReportError(PszLit("unexpected Break"));
+                }
                 return fTrue;
             }
             _pglcstd->Get(icstd, &cstd);

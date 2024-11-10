@@ -913,7 +913,14 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
             {
                 lw = 0;
                 CopyPb(pb, &lw, cb);
-                stnT.FFormatSz((cb <= 2) ? PszLit("%04x") : PszLit("%08x"), lw);
+                if (cb <= 2)
+                {
+                    stnT.FFormatSz(PszLit("%04x"), lw);
+                }
+                else
+                {
+                    stnT.FFormatSz(PszLit("%08x"), lw);
+                }
                 stn2.FAppendStn(&stnT);
             }
         }

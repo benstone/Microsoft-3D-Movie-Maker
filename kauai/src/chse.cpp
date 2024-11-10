@@ -315,7 +315,15 @@ void CHSE::DumpList(PGLB pglb)
     AssertIn(cbEntry, 0, kcbMax);
     ivMac = pglb->IvMac();
 
-    stn.FFormatSz(fAl ? PszLit("\tAL(%d)") : PszLit("\tGL(%d)"), cbEntry);
+    if (fAl)
+    {
+        stn.FFormatSz(PszLit("\tAL(%d)"), cbEntry);
+    }
+    else
+    {
+        stn.FFormatSz(PszLit("\tGL(%d)"), cbEntry);
+    }
+
     DumpSz(stn.Psz());
 
     // print out the entries
@@ -354,7 +362,14 @@ void CHSE::DumpGroup(PGGB pggb)
     AssertIn(cbFixed, 0, kcbMax);
     ivMac = pggb->IvMac();
 
-    stnT.FFormatSz(fAg ? PszLit("\tAG(%d)") : PszLit("\tGG(%d)"), cbFixed);
+    if (fAg)
+    {
+        stnT.FFormatSz(PszLit("\tAG(%d)"), cbFixed);
+    }
+    else
+    {
+        stnT.FFormatSz(PszLit("\tGG(%d)"), cbFixed);
+    }
     DumpSz(stnT.Psz());
 
     // print out the entries
@@ -408,7 +423,14 @@ bool CHSE::FDumpStringTable(PGSTB pgstb)
     if (cbExtra > 0 && !FAllocPv(&pvExtra, cbExtra, fmemNil, mprNormal))
         return fFalse;
 
-    stn1.FFormatSz(fAst ? PszLit("\tAST(%d)") : PszLit("\tGST(%d)"), cbExtra);
+    if (fAst)
+    {
+        stn1.FFormatSz(PszLit("\tAST(%d)"), cbExtra);
+    }
+    else
+    {
+        stn1.FFormatSz(PszLit("\tGST(%d)"), cbExtra);
+    }
     DumpSz(stn1.Psz());
 
     // print out the entries

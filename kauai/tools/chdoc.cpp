@@ -2553,9 +2553,14 @@ bool DCD::FCmdPack(PCMD pcmd)
         }
         else
         {
-            vpappb->TGiveAlertSz(fPack ? PszLit("Packing failed - chunk may be incompressible...")
-                                       : PszLit("Unpacking failed - chunk may be corrupt"),
-                                 bkOk, cokExclamation);
+            if (fPack)
+            {
+                vpappb->TGiveAlertSz(PszLit("Packing failed - chunk may be incompressible..."), bkOk, cokExclamation);
+            }
+            else
+            {
+                vpappb->TGiveAlertSz(PszLit("Unpacking failed - chunk may be corrupt"), bkOk, cokExclamation);
+            }
         }
     }
     else

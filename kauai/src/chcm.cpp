@@ -2649,12 +2649,26 @@ bool CHDC::_FDumpList(PBLCK pblck, bool fAl)
 
     if (bo != _bo)
     {
-        _chse.DumpSz(MacWin(bo != kboCur, bo == kboCur) ? PszLit("WINBO") : PszLit("MACBO"));
+        if (MacWin(bo != kboCur, bo == kboCur))
+        {
+            _chse.DumpSz(PszLit("WINBO"));
+        }
+        else
+        {
+            _chse.DumpSz(PszLit("MACBO"));
+        }
         _bo = bo;
     }
     if (osk != _osk)
     {
-        _chse.DumpSz(osk == koskWin ? PszLit("WINOSK") : PszLit("MACOSK"));
+        if (osk == koskWin)
+        {
+            _chse.DumpSz(PszLit("WINOSK"));
+        }
+        else
+        {
+            _chse.DumpSz(PszLit("MACOSK"));
+        }
         _osk = osk;
     }
 
@@ -2687,12 +2701,26 @@ bool CHDC::_FDumpGroup(PBLCK pblck, bool fAg)
 
     if (bo != _bo)
     {
-        _chse.DumpSz(MacWin(bo != kboCur, bo == kboCur) ? PszLit("WINBO") : PszLit("MACBO"));
+        if (MacWin(bo != kboCur, bo == kboCur))
+        {
+            _chse.DumpSz(PszLit("WINBO"));
+        }
+        else
+        {
+            _chse.DumpSz(PszLit("MACBO"));
+        }
         _bo = bo;
     }
     if (osk != _osk)
     {
-        _chse.DumpSz(osk == koskWin ? PszLit("WINOSK") : PszLit("MACOSK"));
+        if (osk == koskWin)
+        {
+            _chse.DumpSz(PszLit("WINOSK"));
+        }
+        else
+        {
+            _chse.DumpSz(PszLit("MACOSK"));
+        }
         _osk = osk;
     }
 
@@ -2726,12 +2754,26 @@ bool CHDC::_FDumpStringTable(PBLCK pblck, bool fAst)
 
     if (bo != _bo)
     {
-        _chse.DumpSz(MacWin(bo != kboCur, bo == kboCur) ? PszLit("WINBO") : PszLit("MACBO"));
+        if (MacWin(bo != kboCur, bo == kboCur))
+        {
+            _chse.DumpSz(PszLit("WINBO"));
+        }
+        else
+        {
+            _chse.DumpSz(PszLit("MACBO"));
+        }
         _bo = bo;
     }
     if (osk != _osk)
     {
-        _chse.DumpSz(osk == koskWin ? PszLit("WINOSK") : PszLit("MACOSK"));
+        if (osk == koskWin)
+        {
+            _chse.DumpSz(PszLit("WINOSK"));
+        }
+        else
+        {
+            _chse.DumpSz(PszLit("MACOSK"));
+        }
         _osk = osk;
     }
 
