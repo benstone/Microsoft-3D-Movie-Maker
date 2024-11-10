@@ -131,7 +131,7 @@ bool FPortGetFniOpen(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FNI *pfni
     ClearPb(&diPortfolio, size(DLGINFO));
 
     szFile[0] = 0;
-    ofn.lStructSize = size(OPENFILENAME);
+    ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
     ofn.hwndOwner = vwig.hwndApp;
     ofn.hInstance = vwig.hinst;
     ofn.nFilterIndex = 1L;
@@ -142,7 +142,6 @@ bool FPortGetFniOpen(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FNI *pfni
     ofn.lpfnHook = OpenHookProc;
     ofn.lpTemplateName = MAKEINTRESOURCE(dlidPortfolio);
     ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER | OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
-    ofn.FlagsEx = OFN_EX_NOPLACESBAR;
 
     // lpstrDefExt is used for appended to the user typed filename is
     // one is entered without an extension. As the user cannot type
@@ -255,7 +254,7 @@ bool FPortGetFniSave(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, LPTSTR lp
 
     szFileTitle[0] = chNil;
 
-    ofn.lStructSize = size(OPENFILENAME);
+    ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
     ofn.hwndOwner = vwig.hwndApp;
     ofn.hInstance = vwig.hinst;
     ofn.nFilterIndex = 1L;
@@ -272,7 +271,6 @@ bool FPortGetFniSave(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, LPTSTR lp
     // was not designed for use within a modal dlg box such as the portfolio.
     // Instead query overwrite after the portfolio has closed.
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER | OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
-    ofn.FlagsEx = OFN_EX_NOPLACESBAR;
 
     // Do not allow the save portfolio to change the current directory.
     ofn.Flags |= OFN_NOCHANGEDIR;
