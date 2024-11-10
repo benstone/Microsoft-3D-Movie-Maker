@@ -1809,11 +1809,9 @@ void APPB::WarnProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg)
         FNI fni;
         FTG ftg;
 
-        // put the warning file at the root of the drive that temp files go on
+        // put the warning file in the temp directory
         if (!fni.FGetTemp() || !fni.FSetLeaf(pvNil, kftgDir))
             goto LDone;
-        while (fni.FUpDir(pvNil, ffniMoveToDir))
-            ;
 
         stn = PszLit("_Frame_W");
         if (!fni.FSetLeaf(&stn, kftgText))
