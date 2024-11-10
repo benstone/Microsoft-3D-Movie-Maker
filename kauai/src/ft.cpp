@@ -989,7 +989,10 @@ void RTW::MouseDown(long xp, long yp, long cact, ulong grfcust)
 void RTW::Draw(PGNV pgnv, RC *prcClip)
 {
     STN stn;
-    STN rgstn[] = {PszLit("frame rectangle "), PszLit("frame polygon "), PszLit("line draw ")};
+    STN rgstn[3];
+    rgstn[0] = PszLit("frame rectangle ");
+    rgstn[1] = PszLit("frame polygon ");
+    rgstn[2] = PszLit("line draw ");
     RC rc;
 
     stn.FFormatSz(PszLit("Click to begin the %s test"), &rgstn[_cact % 3]);

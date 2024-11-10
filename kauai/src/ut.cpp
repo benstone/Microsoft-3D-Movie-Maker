@@ -21,7 +21,7 @@ bool FFindPrime(long lwMax, long lwMaxRoot, long *plwPrime, long *plwRoot);
 /***************************************************************************
     Call test routines.
 ***************************************************************************/
-void __cdecl main(long cpszs, char **prgpszs)
+int __cdecl main(int cpszs, char **prgpszs)
 {
 #ifdef REVIEW // shonk: for counting lines
     FNE fne;

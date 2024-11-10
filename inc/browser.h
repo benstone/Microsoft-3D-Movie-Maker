@@ -87,7 +87,7 @@ struct TFC
         };
         struct
         {
-            CTG ctg;
+            CTG _ctg;
             CHID chid;
         };
     };
@@ -277,8 +277,8 @@ struct THD
         };
         struct
         {
-            long lwFill1;
-            long lwFill2;
+            long _lwFill1;
+            long _lwFill2;
             CTG ctg;
             CHID chid; // CHID of CD content
         };
