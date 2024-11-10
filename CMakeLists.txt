@@ -115,15 +115,32 @@ else()
 endif()
 
 
+if (ENABLE_ASM_X86)
+    # Generate Kauai decoders for Intel x86
+    add_executable(kcdc-386 EXCLUDE_FROM_ALL)
+    target_sources(kcdc-386 PRIVATE "${PROJECT_SOURCE_DIR}/kauai/src/kcdc_386.c")
+    target_include_directories(kcdc-386 PRIVATE $<TARGET_PROPERTY:kauai,INCLUDE_DIRECTORIES>)
 
-# NOTE: kcdc-386 and kcd2-386 prevent cross compiling at this time.
-add_executable(kcdc-386 EXCLUDE_FROM_ALL)
-target_sources(kcdc-386 PRIVATE "${PROJECT_SOURCE_DIR}/kauai/src/kcdc_386.c")
-target_include_directories(kcdc-386 PRIVATE $<TARGET_PROPERTY:kauai,INCLUDE_DIRECTORIES>)
+    add_executable(kcd2-386 EXCLUDE_FROM_ALL)
+    target_sources(kcd2-386 PRIVATE "${PROJECT_SOURCE_DIR}/kauai/src/kcd2_386.c")
+    target_include_directories(kcd2-386 PRIVATE $<TARGET_PROPERTY:kauai,INCLUDE_DIRECTORIES>)
 
-add_executable(kcd2-386 EXCLUDE_FROM_ALL)
-target_sources(kcd2-386 PRIVATE "${PROJECT_SOURCE_DIR}/kauai/src/kcd2_386.c")
-target_include_directories(kcd2-386 PRIVATE $<TARGET_PROPERTY:kauai,INCLUDE_DIRECTORIES>)
+    add_custom_command(
+        OUTPUT "${PROJECT_BINARY_DIR}/generated/kauai/src/kcdc_386.h"
+        COMMAND cmake -E make_directory "${PROJECT_BINARY_DIR}/generated/kauai/src"
+        COMMAND kcdc-386 "${PROJECT_BINARY_DIR}/generated/kauai/src/kcdc_386.h"
+        COMMENT "Generating kcdc_386.h"
+        VERBATIM
+    )
+
+    add_custom_command(
+        OUTPUT "${PROJECT_BINARY_DIR}/generated/kauai/src/kcd2_386.h"
+        COMMAND cmake -E make_directory "${PROJECT_BINARY_DIR}/generated/kauai/src"
+        COMMAND kcd2-386 "${PROJECT_BINARY_DIR}/generated/kauai/src/kcd2_386.h"
+        COMMENT "Generating kcd2_386.h"
+        VERBATIM
+    )
+endif()
 
 add_executable(chelp WIN32 EXCLUDE_FROM_ALL)
 target_sources(chelp PRIVATE
@@ -203,21 +220,6 @@ target_link_libraries(chelpdmp PRIVATE kauai)
 file(GLOB building-chunk-sources CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/building/*.cht")
 file(GLOB studio-chunk-sources CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/studio/*.cht")
 
-add_custom_command(
-  OUTPUT "${PROJECT_BINARY_DIR}/generated/kauai/src/kcdc_386.h"
-  COMMAND cmake -E make_directory "${PROJECT_BINARY_DIR}/generated/kauai/src"
-  COMMAND kcdc-386 "${PROJECT_BINARY_DIR}/generated/kauai/src/kcdc_386.h"
-  COMMENT "Generating kcdc_386.h"
-  VERBATIM
-)
-
-add_custom_command(
-  OUTPUT "${PROJECT_BINARY_DIR}/generated/kauai/src/kcd2_386.h"
-  COMMAND cmake -E make_directory "${PROJECT_BINARY_DIR}/generated/kauai/src"
-  COMMAND kcd2-386 "${PROJECT_BINARY_DIR}/generated/kauai/src/kcd2_386.h"
-  COMMENT "Generating kcd2_386.h"
-  VERBATIM
-)
 
 add_compile_options($<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/wd4430>)
 add_library(kauai)
@@ -229,9 +231,6 @@ target_include_directories(
 
 target_sources(kauai
   PRIVATE
-    "${PROJECT_BINARY_DIR}/generated/kauai/src/kcdc_386.h"
-    "${PROJECT_BINARY_DIR}/generated/kauai/src/kcd2_386.h"
-
     "${PROJECT_SOURCE_DIR}/kauai/src/appb.cpp"
     "${PROJECT_SOURCE_DIR}/kauai/src/base.cpp"
     "${PROJECT_SOURCE_DIR}/kauai/src/chcm.cpp"
@@ -301,6 +300,15 @@ target_sources(kauai
     # Stubs for Visual C++ 2.1 CRT functions
     "${PROJECT_SOURCE_DIR}/kauai/src/stub.cpp"   
 )
+
+if (ENABLE_ASM_X86)
+    target_sources(
+        kauai
+        PRIVATE
+        "${PROJECT_BINARY_DIR}/generated/kauai/src/kcdc_386.h"
+        "${PROJECT_BINARY_DIR}/generated/kauai/src/kcd2_386.h"
+    )
+endif()
 
 target_compile_definitions(kauai PUBLIC
   _LPCVOID_DEFINED
