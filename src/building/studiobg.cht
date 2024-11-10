@@ -29,7 +29,7 @@ OBJECT( "studio1: toolbox",  kgobStudio1Tools, 120, kcrsHand1 )
 		// Go to the studio. - intro sequence it
 		ChangeStateThis( kst2 );
 	ENDCHUNK
-	#include "studioBx.seq"
+	#include "studiobx.seq"
 
 												 // Z depth above help balloons which have depth of 800.
 OBJECT( "studio1: toolbox anim",  kgobStudio1TV, 810, kcrsHand1 )
@@ -43,7 +43,7 @@ OBJECT( "studio1: toolbox anim",  kgobStudio1TV, 810, kcrsHand1 )
 		Cell( cnt, 0,0, 6 );		// be sure and draw the last frame		
 		ChangeStateGob( kgobStudio1McZee, kst4 );// played the intro
 	ENDCHUNK
-	#include "studioTv.seq"
+	#include "studiotv.seq"
 
 // -----------------------------------------------------
 // Studio Main McZee

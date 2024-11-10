@@ -77,7 +77,7 @@ OBJECT("projects1: mon1", kgobProj1Mon1, 75, kcrsHand1)
 	CLICK_SCRIPT( "projects1 monitor1 clicked" )
 		ChangeStateThis( kst2 );
 	ENDCHUNK
-	#include "PrjMon1.seq"
+	#include "prjmon1.seq"
 
 OBJECTTY( "Projects1: TV animation", kgobTvViewL, 150, kcrsHand1, gokkNoHitThis )
 	REP_MBMP( CHID(kst1, krepDefault ), "building\bitmaps\projects\holder1.bmp"	)
@@ -109,7 +109,7 @@ OBJECT("projects1: mon2", kgobProj1Mon2, 155, kcrsHand1)
 	CLICK_SCRIPT( "projects1 monitor2 clicked" )
 		ChangeStateThis( kst2 );
 	ENDCHUNK
-	#include "PrjMon2.seq"
+	#include "prjmon2.seq"
 
 OBJECTTY( "Projects1: TV animation", kgobTvViewR, 155, kcrsHand1, gokkNoHitThis )
 	REP_MBMP( CHID(kst1, krepDefault ), "building\bitmaps\projects\holder2.bmp"	)

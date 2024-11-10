@@ -288,7 +288,7 @@ OBJECT( "Project room opening door", kgobProjectDoor, 150, kcrsArrow1 )
 			Cell( cnt++, 0,0, 6 );		
 		End;
 	ENDCHUNK
-	#include "PrDoor.seq"
+	#include "prdoor.seq"
 
 OBJECT( "Studio room opening door", kgobStudioDoor, 150, kcrsArrow1 )
 	REP_ANIM( CHID( kst1, krepEnterAnimation ), "Ideas rm door opening anim" )
@@ -297,7 +297,7 @@ OBJECT( "Studio room opening door", kgobStudioDoor, 150, kcrsArrow1 )
 			Cell( cnt++, 0,0, 6 );	
 		End;
 	ENDCHUNK
-	#include "StDoor.seq"
+	#include "stdoor.seq"
 
 OBJECT( "Ideas room opening door", kgobIdeaDoor, 150, kcrsArrow1 )
 	REP_ANIM( CHID( kst1, krepEnterAnimation ), "Ideas rm door opening anim" )
@@ -306,7 +306,7 @@ OBJECT( "Ideas room opening door", kgobIdeaDoor, 150, kcrsArrow1 )
 			Cell( cnt++, 0,0, 6 );	
 		End;
 	ENDCHUNK
-	#include "IdDoor.seq"
+	#include "iddoor.seq"
 
  OBJECT( "Mz's carpet bag", kgobBackstage1Bag, 150, kcrsArrow1 )
 	REP_PPMBMP( CHID( kst1, krepDefault ), "building\pbm\backstag\bag12.pbm" )
@@ -317,7 +317,7 @@ OBJECT( "Ideas room opening door", kgobIdeaDoor, 150, kcrsArrow1 )
 		End;
 		ChangeStateThis( kst1 );
 	ENDCHUNK
-	#include "BkstgBag.seq"
+	#include "bkstgbag.seq"
  
  OBJECT( "Mz's shadow", kgobBackstage1Shadow, 150, kcrsArrow1 )
  	REP_ANIM( CHID( kst1, krepDefault ), "Backstage shadow anim" )
@@ -327,7 +327,7 @@ OBJECT( "Ideas room opening door", kgobIdeaDoor, 150, kcrsArrow1 )
 		End;
 		DestroyThis();
 	ENDCHUNK
-	#include "BkShdw.seq"
+	#include "bkshdw.seq"
 
 //------------------------------------------------------------------
 // The long backstage welcome.  An AVI sequence.
