@@ -10,9 +10,24 @@ if(MSVC)
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
   
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
-  # permissive forces C++14 const char* as default for literals
-  # this flag re-enables the auto-conversion for the microsoft compiler
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:strictStrings-")
+
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # Compiling with ClangCL
+    # Disable warnings about string literals
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /clang:-Wno-multichar /clang:-Wno-writable-strings")
+
+    # FUTURE: Fix dangling-else warnings
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /clang:-Wno-dangling-else")
+
+    # Disable SafeSEH: required to link BRender
+    # TODO: fix FindBRender to set this correctly when compiling with ClangCL
+    set(CMAKE_EXE_LINKER_FLAGS "/SAFESEH:NO")
+
+  else()
+    # permissive forces C++14 const char* as default for literals
+    # this flag re-enables the auto-conversion for the microsoft compiler
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:strictStrings-")
+  endif()
 endif()
 
 include(CMakeDependentOption)
