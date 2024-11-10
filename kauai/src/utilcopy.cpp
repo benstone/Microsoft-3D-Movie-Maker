@@ -377,11 +377,34 @@ LHit:
 
 #else //! IN_80386
 
-    byte *pb1 = (byte *)pv1;
-    byte *pb2 = (byte *)pv2;
+    const byte *pb1 = (const byte *)pv1;
+    const byte *pb2 = (const byte *)pv2;
 
+    // Compare the buffers four bytes at a time
+    if (cb >= 4)
+    {
+        const long *plw1 = (const long *)pv1;
+        const long *plw2 = (const long *)pv2;
+        long clw = cb >> 2;
+
+        for (; clw-- > 0 && *plw1 == *plw2; plw1++, plw2++)
+        {
+            // do nothing
+        }
+
+        // Start single byte comparison after last dword match
+        pb1 = (byte *)plw1;
+        pb2 = (byte *)plw2;
+
+        long cbMatch = (pb1 - (byte *)pv1);
+        cb = cb - cbMatch;
+    }
+
+    // Compare one byte at a time for the remainder
     for (; cb-- > 0 && *pb1 == *pb2; pb1++, pb2++)
-        ;
+    {
+        // do nothing
+    }
     return pb1 - (byte *)pv1;
 
 #endif //! IN_80386
