@@ -4,7 +4,17 @@ include_guard(GLOBAL)
 function(target_chomp_sources target)
   # We cannot use $<CXX_COMPILER_ID:...> because we are not generating binary
   # targets 😢
-  set(is-msvc $<STREQUAL:${CMAKE_CXX_COMPILER_ID},MSVC>)
+
+
+  set(is-msvc 0)
+  set(is-clangcl 0)
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(is-msvc 1)
+  elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND "${CMAKE_CXX_COMPILER_FRONTEND_VARIANT}" STREQUAL "MSVC")
+    set(is-msvc 1)
+    set(is-clangcl 1)
+  endif()
+
   set(include-directories $<TARGET_PROPERTY:${target},INCLUDE_DIRECTORIES>)
   set(compile-definitions $<TARGET_PROPERTY:${target},COMPILE_DEFINITIONS>)
   string(CONCAT include-directories $<
@@ -30,8 +40,12 @@ function(target_chomp_sources target)
       OUTPUT "${processed}"
       COMMAND "${CMAKE_CXX_COMPILER}"
         "$<${is-msvc}:/nologo>"
+        "$<${is-msvc}:/C>"
+        "$<${is-msvc}:/W4>"
+        "$<${is-msvc}:/WX>"
         "$<${is-msvc}:/E>"
         "$<${is-msvc}:/TP>"
+        "$<${is-clangcl}:/clang:-fuse-line-directives>"
         "${include-directories}"
         "${compile-definitions}"
         "${source}" > "${processed}"
