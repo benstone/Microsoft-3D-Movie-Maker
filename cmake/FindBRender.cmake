@@ -48,11 +48,14 @@ if (${CMAKE_FIND_PACKAGE_NAME}_FOUND AND NOT TARGET BRender::Libraries)
       ${CMAKE_FIND_PACKAGE_NAME}_${library}_RELEASE_LIBRARY
       ${CMAKE_FIND_PACKAGE_NAME}_${library}_DEBUG_LIBRARY)
   endforeach()
-  # TODO(bruxisma): This needs to be enforce ONLY when targetin Visual Studio
-  # 2015 or later
-  target_link_libraries(BRender::BRFWMXR
-    INTERFACE
-      $<$<LINK_LANG_AND_ID:CXX,MSVC>:legacy_stdio_definitions>)
+
+  # Link legacy stdio functions on Visual Studio 2015 and later
+  if("${MSVC_VERSION}" GREATER_EQUAL "1900")
+    target_link_libraries(BRender::BRFWMXR
+      INTERFACE
+      legacy_stdio_definitions
+    )
+  endif()
 
   # Precompiled BRender libraries do not support SafeSEH
   target_link_options(BRender::BRFWMXR INTERFACE
