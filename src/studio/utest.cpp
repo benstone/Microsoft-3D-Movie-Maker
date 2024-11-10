@@ -1577,8 +1577,8 @@ bool APP::_FReadTitlesFromReg(PGST *ppgst)
 
     if ((pgst = GST::PgstNew(size(long))) == pvNil)
         goto LFail;
-    if (RegCreateKeyEx(HKEY_LOCAL_MACHINE, kszProductsKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
-                       &hkey, &dwDisposition) != ERROR_SUCCESS)
+    if (RegCreateKeyEx(HKEY_LOCAL_MACHINE, kszProductsKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_READ, NULL, &hkey,
+                       &dwDisposition) != ERROR_SUCCESS)
     {
         Warn("Missing InstallDirectory registry entry or registry error");
         _FGenericError("Missing InstallDirectory registry entry or registry error");
