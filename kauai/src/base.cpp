@@ -222,7 +222,7 @@ void *BASE::operator new(size_t cb)
         _LinkDoi(pdoi, &_pdoiFirstRaw);
         pv = _PbaseFromDoi(pdoi);
 
-#ifdef WIN
+#if defined(WIN) && defined(IN_80386)
         // follow the EBP chain....
         long *plw;
         long ilw;
@@ -241,7 +241,7 @@ void *BASE::operator new(size_t cb)
                 plw = (long *)*plw;
             }
         }
-#endif // WIN
+#endif // WIN && IN_80386
 
         // update statistics
         vdmglob.dmaglBase.Allocate(cb);

@@ -201,7 +201,7 @@ bool FAllocPv(void **ppv, long cb, ulong grfmem, long mpr)
     pmbh->lwLine = lwLine;
     pmbh->lwThread = LwThreadCur();
 
-#ifdef WIN
+#if defined(WIN) && defined(IN_80386)
     // follow the EBP chain....
     long *plw;
     long ilw;
@@ -220,7 +220,7 @@ bool FAllocPv(void **ppv, long cb, ulong grfmem, long mpr)
             plw = (long *)*plw;
         }
     }
-#endif // WIN
+#endif // WIN && IN_80386
 
     // write the footer
     MBF mbf;

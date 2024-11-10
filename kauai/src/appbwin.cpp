@@ -874,6 +874,7 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
         stn1 = PszLit("Some Header file");
     stn0.FFormatSz(psz, &stn1, lwLine, &stn2);
 
+#if defined(WIN) && defined(IN_80386)
     // call stack - follow the EBP chain....
     __asm { mov plw,ebp }
     for (ilw = 0; ilw < kclwChain; ilw++)
@@ -889,6 +890,7 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
             plw = (long *)*plw;
         }
     }
+#endif // WIN && IN_80386
 
     for (cact = 0; cact < 2; cact++)
     {
