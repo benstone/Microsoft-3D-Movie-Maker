@@ -210,4 +210,4 @@ class TMPL : public TMPL_PAR
     bool FSameAccCmids(long cmid1, long cmid2);
 };
 
-#endif TMPL_H
+#endif // TMPL_H

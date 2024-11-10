@@ -127,4 +127,4 @@ class APE : public APE_PAR
     bool FGetMaterial(long ibset, tribool *pfMtrl, long *pcmid, TAG *ptagMtrl);
 };
 
-#endif APE_H
+#endif // APE_H

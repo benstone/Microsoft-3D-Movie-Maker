@@ -185,4 +185,4 @@ class BKGD : public BKGD_PAR
 #endif // DEBUG
 };
 
-#endif BKGD_H
+#endif // BKGD_H

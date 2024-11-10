@@ -78,4 +78,4 @@ class MODL : public MODL_PAR
     }
 };
 
-#endif TMPL_H
+#endif // TMPL_H

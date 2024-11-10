@@ -104,4 +104,4 @@
 // Global variables
 extern PTAGM vptagm;
 
-#endif !SOC_H
+#endif // !SOC_H

@@ -60,4 +60,4 @@ class TATR : public TATR_PAR
     }
 };
 
-#endif TATR_H
+#endif // TATR_H

@@ -133,4 +133,4 @@ class SREC : public SREC_PAR
     }
 };
 
-#endif SREC_H
+#endif // SREC_H

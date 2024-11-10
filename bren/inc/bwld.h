@@ -133,4 +133,4 @@ class BWLD : public BWLD_PAR
 #endif // DEBUG
 };
 
-#endif BWLD_H
+#endif // BWLD_H

@@ -71,4 +71,4 @@ class ZBMP : public ZBMP_PAR
     bool FWrite(PCFL pcfl, CTG ctg, CNO *pcno);
 };
 
-#endif ZBMP_H
+#endif // ZBMP_H

@@ -46,4 +46,4 @@ class TAGL : public TAGL_PAR
     bool FCacheTags(void);
 };
 
-#endif TAGL_H
+#endif // TAGL_H

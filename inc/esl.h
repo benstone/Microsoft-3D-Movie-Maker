@@ -288,4 +288,4 @@ class ESLR : public ESLR_PAR
     bool FCmdUpdateMeter(PCMD pcmd);
 };
 
-#endif ESL_H
+#endif // ESL_H

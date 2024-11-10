@@ -1408,4 +1408,4 @@ void COST::MarkMem(void)
     }
 }
 
-#endif DEBUG
+#endif // DEBUG

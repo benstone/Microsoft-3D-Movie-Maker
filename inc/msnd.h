@@ -275,4 +275,4 @@ class MSQ : public MSQ_PAR
     }
 };
 
-#endif MSND_H
+#endif // MSND_H
