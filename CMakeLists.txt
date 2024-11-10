@@ -49,9 +49,18 @@ endif()
 # Local Tooling
 add_compile_definitions(
   $<$<PLATFORM_ID:Windows>:WIN>
-  $<$<PLATFORM_ID:Windows>:IN_80386>
   $<$<CONFIG:Debug>:DEBUG>
 )
+
+option(ENABLE_ASM_X86 "Use original optimized assembly for Intel x86" OFF)
+if (ENABLE_ASM_X86)
+    add_compile_definitions(IN_80386)
+endif()
+
+if (CMAKE_C_BYTE_ORDER MATCHES LITTLE_ENDIAN)
+    add_compile_definitions ("LITTLE_ENDIAN")
+endif()
+
 
 if (NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   message(FATAL_ERROR "Cannot compile for 64-bit yet")
