@@ -1821,7 +1821,7 @@ bool NTL::FInit(void)
     -- Font enumuration callback.
     -- If font is TrueType, it is added to the GST.
 ***************************************************************************/
-int CALLBACK _FEnumFont(LOGFONT *plgf, TEXTMETRIC *ptxm, ulong luType, LPARAM luParam)
+int CALLBACK _FEnumFont(const LOGFONT *plgf, const TEXTMETRIC *ptxm, ulong luType, LPARAM luParam)
 {
     long istz;
     PGST pgst = (PGST)luParam;
@@ -1830,9 +1830,11 @@ int CALLBACK _FEnumFont(LOGFONT *plgf, TEXTMETRIC *ptxm, ulong luType, LPARAM lu
     if (luType != TRUETYPE_FONTTYPE)
         return fTrue;
 
-    AssertDo(!pgst->FFindRgch(plgf->lfFaceName, CchSz(plgf->lfFaceName), &istz, fgstUserSorted),
-             "font already in list!");
-    return pgst->FInsertRgch(istz, plgf->lfFaceName, CchSz(plgf->lfFaceName), plgf);
+    // TODO: Fix const correctness in FFindRgch and FInsertRgch
+    LOGFONT lgf = *plgf;
+
+    AssertDo(!pgst->FFindRgch(lgf.lfFaceName, CchSz(lgf.lfFaceName), &istz, fgstUserSorted), "font already in list!");
+    return pgst->FInsertRgch(istz, lgf.lfFaceName, CchSz(lgf.lfFaceName), &lgf);
 }
 
 /***************************************************************************
