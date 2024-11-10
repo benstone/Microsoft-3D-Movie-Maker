@@ -383,7 +383,7 @@ bool FLO::FReadRgb(void *pv, long cbRead, FP dfp)
 /***************************************************************************
     Write a piece of a flo from pv.
 ***************************************************************************/
-bool FLO::FWriteRgb(void *pv, long cbWrite, FP dfp)
+bool FLO::FWriteRgb(const void *pv, long cbWrite, FP dfp)
 {
     AssertThis(0);
 
@@ -942,7 +942,7 @@ bool BLCK::FReadRgb(void *pv, long cb, long ib, bool fPackedOk)
 /***************************************************************************
     Write a range of bytes to the data block.
 ***************************************************************************/
-bool BLCK::FWriteRgb(void *pv, long cb, long ib, bool fPackedOk)
+bool BLCK::FWriteRgb(const void *pv, long cb, long ib, bool fPackedOk)
 {
     AssertThis(0);
     AssertPvCb(pv, cb);

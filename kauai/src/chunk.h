@@ -130,7 +130,7 @@ class CFL : public CFL_PAR
     void _GetUniqueCno(CTG ctg, long *picrp, CNO *pcno);
     void _FreeFpCb(bool fOnExtra, FP fp, long cb);
     bool _FAdd(long cb, CTG ctg, CNO cno, long icrp, PBLCK pblck);
-    bool _FPut(long cb, CTG ctg, CNO cno, PBLCK pblck, PBLCK pblckSrc, void *pv);
+    bool _FPut(long cb, CTG ctg, CNO cno, PBLCK pblck, PBLCK pblckSrc, const void *pv);
     bool _FCopy(CTG ctgSrc, CNO cnoSrc, PCFL pcflDst, CNO *pcnoDst, bool fClone);
     bool _FFindMatch(CTG ctgSrc, CNO cnoSrc, PCFL pcflDst, CNO *pcnoDst);
     bool _FFindCtgRti(CTG ctg, long rti, CNO cnoMin, CNO *pcnoDst);
@@ -209,7 +209,7 @@ class CFL : public CFL_PAR
     bool FAddHq(HQ hq, CTG ctg, CNO *pcno);
     bool FAddBlck(PBLCK pblckSrc, CTG ctg, CNO *pcno);
     bool FPut(long cb, CTG ctg, CNO cno, PBLCK pblck = pvNil);
-    bool FPutPv(void *pv, long cb, CTG ctg, CNO cno);
+    bool FPutPv(const void *pv, long cb, CTG ctg, CNO cno);
     bool FPutHq(HQ hq, CTG ctg, CNO cno);
     bool FPutBlck(PBLCK pblck, CTG ctg, CNO cno);
     bool FCopy(CTG ctgSrc, CNO cnoSrc, PCFL pcflDst, CNO *pcnoDst);

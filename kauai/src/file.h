@@ -188,12 +188,12 @@ struct FLO
     {
         return FReadRgb(pv, cb, 0);
     }
-    bool FWrite(void *pv)
+    bool FWrite(const void *pv)
     {
         return FWriteRgb(pv, cb, 0);
     }
     bool FReadRgb(void *pv, long cbRead, FP dfp);
-    bool FWriteRgb(void *pv, long cbWrite, FP dfp);
+    bool FWriteRgb(const void *pv, long cbWrite, FP dfp);
     bool FCopy(PFLO pfloDst);
     bool FReadHq(HQ *phq, long cbRead, FP dfp = 0);
     bool FWriteHq(HQ hq, FP dfp = 0);
@@ -266,12 +266,12 @@ class BLCK : public BLCK_PAR
     {
         return FReadRgb(pv, Cb(fPackedOk), 0, fPackedOk);
     }
-    bool FWrite(void *pv, bool fPackedOk = fFalse)
+    bool FWrite(const void *pv, bool fPackedOk = fFalse)
     {
         return FWriteRgb(pv, Cb(fPackedOk), 0, fPackedOk);
     }
     bool FReadRgb(void *pv, long cb, long ib, bool fPackedOk = fFalse);
-    bool FWriteRgb(void *pv, long cb, long ib, bool fPackedOk = fFalse);
+    bool FWriteRgb(const void *pv, long cb, long ib, bool fPackedOk = fFalse);
     bool FReadHq(HQ *phq, long cb, long ib, bool fPackedOk = fFalse);
     bool FWriteHq(HQ hq, long ib, bool fPackedOk = fFalse);
     bool FReadHq(HQ *phq, bool fPackedOk = fFalse)

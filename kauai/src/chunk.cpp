@@ -2539,7 +2539,7 @@ bool CFL::FPut(long cb, CTG ctg, CNO cno, PBLCK pblck)
 /***************************************************************************
     Replace or create a chunk with the given cno and put the data in it.
 ***************************************************************************/
-bool CFL::FPutPv(void *pv, long cb, CTG ctg, CNO cno)
+bool CFL::FPutPv(const void *pv, long cb, CTG ctg, CNO cno)
 {
     AssertThis(0);
     AssertIn(cb, 0, kcbMax);
@@ -2588,7 +2588,7 @@ bool CFL::FPutBlck(PBLCK pblckSrc, CTG ctg, CNO cno)
     else except the data.  If pblck isn't nil, this sets it to the location
     of the new data.  Doesn't change the packed flag.
 ***************************************************************************/
-bool CFL::_FPut(long cb, CTG ctg, CNO cno, PBLCK pblck, PBLCK pblckSrc, void *pv)
+bool CFL::_FPut(long cb, CTG ctg, CNO cno, PBLCK pblck, PBLCK pblckSrc, const void *pv)
 {
     AssertBaseThis(0);
     AssertIn(cb, 0, kcbMax);
