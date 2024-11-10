@@ -31,7 +31,7 @@ STN::STN(STN &stnSrc)
 /***************************************************************************
     Constructor for a string based on an sz.
 ***************************************************************************/
-STN::STN(PSZ pszSrc)
+STN::STN(const PSZ pszSrc)
 {
     long cch = LwBound(CchSz(pszSrc), 0, kcchMaxStn + 1);
 
@@ -58,7 +58,7 @@ STN &STN::operator=(STN &stnSrc)
 /***************************************************************************
     Set the string to the given array of characters.
 ***************************************************************************/
-void STN::SetRgch(achar *prgchSrc, long cch)
+void STN::SetRgch(const achar *prgchSrc, long cch)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcbMax);
@@ -135,7 +135,7 @@ void STN::Delete(long ich, long cch)
 /***************************************************************************
     Append some characters to the end of the string.
 ***************************************************************************/
-bool STN::FAppendRgch(achar *prgchSrc, long cch)
+bool STN::FAppendRgch(const achar *prgchSrc, long cch)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcbMax);
@@ -163,7 +163,7 @@ bool STN::FAppendRgch(achar *prgchSrc, long cch)
 /***************************************************************************
     Insert some characters into the middle of a string.
 ***************************************************************************/
-bool STN::FInsertRgch(long ich, achar *prgchSrc, long cch)
+bool STN::FInsertRgch(long ich, const achar *prgchSrc, long cch)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcbMax);
@@ -204,7 +204,7 @@ bool STN::FInsertRgch(long ich, achar *prgchSrc, long cch)
     Test whether the given rgch is equal to this string.  This does bytewise
     compare - not user level comparison.
 ***************************************************************************/
-bool STN::FEqualRgch(achar *prgch, long cch)
+bool STN::FEqualRgch(const achar *prgch, long cch)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcbMax);
@@ -216,7 +216,7 @@ bool STN::FEqualRgch(achar *prgch, long cch)
 /***************************************************************************
     Do user level string equality testing with the options given in grfstn.
 ***************************************************************************/
-bool STN::FEqualUserRgch(achar *prgch, long cch, ulong grfstn)
+bool STN::FEqualUserRgch(const achar *prgch, long cch, ulong grfstn)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcbMax);
@@ -561,7 +561,7 @@ bool STN::FFormat(PSTN pstnFormat, ...)
 /***************************************************************************
     See comments for STN::FFormat
 ***************************************************************************/
-bool STN::FFormatSz(PSZ pszFormat, ...)
+bool STN::FFormatSz(const PSZ pszFormat, ...)
 {
     AssertThis(0);
     AssertSz(pszFormat);
@@ -572,7 +572,7 @@ bool STN::FFormatSz(PSZ pszFormat, ...)
 /***************************************************************************
     Core routine for sprintf functionality.
 ***************************************************************************/
-bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData)
+bool STN::FFormatRgch(const achar *prgchFormat, long cchFormat, ulong *prgluData)
 {
     AssertThis(0);
     AssertIn(cchFormat, 0, kcchMaxStn + 1);
@@ -587,14 +587,15 @@ bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData)
         dwoPadLast = 0x0132
     };
     achar *pchOut, *pchOutLim;
-    achar *pchIn, *pchInLim;
+    const achar *pchIn, *pchInLim;
     long cch;
     long cchMin;
     long ivArg;
     ulong lu, luRad;
     achar ch;
     achar rgchT[kcchMaxStn];
-    achar *prgchTerm;
+    const achar *prgchTerm;
+    achar *prgchTermMut;
     achar chSign, chPad;
     ulong dwo;
     PSTN pstn;
@@ -704,7 +705,7 @@ bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData)
         case ChLit('z'):
             AssertSz((achar *)lu);
             prgchTerm = (achar *)lu;
-            cch = CchSz(prgchTerm);
+            cch = CchSz((PSZ)prgchTerm);
             break;
 
         case ChLit('f'):
@@ -737,14 +738,16 @@ bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData)
         case ChLit('u'):
             luRad = 10;
         LUnsigned:
-            prgchTerm = rgchT + CvFromRgv(rgchT);
+            prgchTermMut = rgchT + CvFromRgv(rgchT);
+            prgchTerm = prgchTermMut;
             cch = 0;
             do
             {
-                *--prgchTerm = vrgchHex[lu % luRad];
+                *--prgchTermMut = vrgchHex[lu % luRad];
                 cch++;
                 lu /= luRad;
             } while (lu != 0);
+            prgchTerm -= cch;
             break;
 
         default:
@@ -996,7 +999,7 @@ bool FValidStz(PSTZ pstz)
 /***************************************************************************
     Find the length of a zero terminated string.
 ***************************************************************************/
-long CchSz(PSZ psz)
+long CchSz(const PSZ psz)
 {
     // WARNING: don't call AssertSz, since AssertSz calls CchSz!
     AssertVarMem(psz);
@@ -1013,7 +1016,7 @@ long CchSz(PSZ psz)
     Do string equality testing.  This does byte-wise comparison for
     internal (non-user) use only!
 ***************************************************************************/
-bool FEqualRgch(achar *prgch1, long cch1, achar *prgch2, long cch2)
+bool FEqualRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2)
 {
     AssertIn(cch1, 0, kcbMax);
     AssertPvCb(prgch1, cch1 * size(achar));
@@ -1028,7 +1031,7 @@ bool FEqualRgch(achar *prgch1, long cch1, achar *prgch2, long cch2)
     (non-user) sorting only!  The sorting is byte-order independent.
     fcmpLt means that string 1 is less than string 2.
 ***************************************************************************/
-ulong FcmpCompareRgch(achar *prgch1, long cch1, achar *prgch2, long cch2)
+ulong FcmpCompareRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2)
 {
     AssertIn(cch1, 0, kcbMax);
     AssertPvCb(prgch1, cch1 * size(achar));
@@ -1056,7 +1059,7 @@ ulong FcmpCompareRgch(achar *prgch1, long cch1, achar *prgch2, long cch2)
 /***************************************************************************
     User level equality testing of strings.
 ***************************************************************************/
-bool FEqualUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong grfstn)
+bool FEqualUserRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2, ulong grfstn)
 {
     AssertIn(cch1, 0, kcbMax);
     AssertPvCb(prgch1, cch1 * size(achar));
@@ -1097,7 +1100,7 @@ bool FEqualUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong gr
 /***************************************************************************
     Do user level string comparison with the given options.
 ***************************************************************************/
-ulong FcmpCompareUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong grfstn)
+ulong FcmpCompareUserRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2, ulong grfstn)
 {
     AssertIn(cch1, 0, kcbMax);
     AssertPvCb(prgch1, cch1 * size(achar));
@@ -1122,7 +1125,8 @@ ulong FcmpCompareUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ul
         return FcmpCompareRgch(prgch1, cch1, prgch2, cch2);
     }
 #else  //! WIN
-    RawRtn();     // REVIEW shonk: Mac: implement for real
+    // REVIEW shonk: Mac: implement for real
+    RawRtn();
     return FcmpCompareRgch(prgch1, cch1, prgch2, cch2);
 #endif //! WIN
 }
@@ -1215,7 +1219,7 @@ void LowerRgchw(wchar *prgchw, long cchw)
 /***************************************************************************
     Translate text from the indicated source character set to koskCur.
 ***************************************************************************/
-long CchTranslateRgb(void *pvSrc, long cbSrc, short oskSrc, achar *prgchDst, long cchMaxDst)
+long CchTranslateRgb(const void *pvSrc, long cbSrc, short oskSrc, achar *prgchDst, long cchMaxDst)
 {
     AssertPvCb(pvSrc, cbSrc);
     AssertOsk(oskSrc);
@@ -1281,14 +1285,15 @@ long CchTranslateRgb(void *pvSrc, long cbSrc, short oskSrc, achar *prgchDst, lon
         if (cbSrc % size(wchar) != 0)
             return 0;
 
+        // TODO: Refactor to make a copy of the string instead of modifying it in-place
         // swap byte order
         if (oskSrc == koskUniMac)
-            SwapBytesRgsw(pvSrc, cbSrc / size(wchar));
+            RawRtn(); // SwapBytesRgsw(pvSrc, cbSrc / size(wchar));
 
         cchT = WideCharToMultiByte(CP_ACP, 0, (LPWSTR)pvSrc, cbSrc / size(wchar), prgchDst, cchMaxDst, pvNil, pvNil);
 
-        if (oskSrc == koskUniMac)
-            SwapBytesRgsw(pvSrc, cbSrc / size(wchar));
+        // if (oskSrc == koskUniMac)
+        // SwapBytesRgsw(pvSrc, cbSrc / size(wchar));
         return cchT;
     }
 

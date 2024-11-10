@@ -1064,7 +1064,7 @@ void GNV::GetDsf(DSF *pdsf)
 /******************************************************************************
     Draw some text.
 ******************************************************************************/
-void GNV::DrawRgch(achar *prgch, long cch, long xp, long yp, ACR acrFore, ACR acrBack)
+void GNV::DrawRgch(const achar *prgch, long cch, long xp, long yp, ACR acrFore, ACR acrBack)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcbMax);
@@ -1100,7 +1100,7 @@ void GNV::DrawStn(PSTN pstn, long xp, long yp, ACR acrFore, ACR acrBack)
     Return the bounding box of the text.  If the GNV has any scaling, this
     is approximate.  This even works if cch is 0 (just gives the height).
 ******************************************************************************/
-void GNV::GetRcFromRgch(RC *prc, achar *prgch, long cch, long xp, long yp)
+void GNV::GetRcFromRgch(RC *prc, const achar *prgch, long cch, long xp, long yp)
 {
     AssertThis(0);
     AssertVarMem(prc);

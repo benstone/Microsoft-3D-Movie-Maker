@@ -152,8 +152,8 @@ class FIL : public FIL_PAR
         *pfp += cb;
         return fTrue;
     }
-    bool FWriteRgb(void *pv, long cb, FP fp);
-    bool FWriteRgbSeq(void *pv, long cb, FP *pfp)
+    bool FWriteRgb(const void *pv, long cb, FP fp);
+    bool FWriteRgbSeq(const void *pv, long cb, FP *pfp)
     {
         AssertVarMem(pfp);
         if (!FWriteRgb(pv, cb, *pfp))
@@ -304,8 +304,8 @@ class MSNK : public MSNK_PAR
     RTCLASS_INLINE(MSNK)
 
   public:
-    virtual void ReportLine(PSZ psz) = 0;
-    virtual void Report(PSZ psz) = 0;
+    virtual void ReportLine(const PSZ psz) = 0;
+    virtual void Report(const PSZ psz) = 0;
     virtual bool FError(void) = 0;
 };
 
@@ -330,8 +330,8 @@ class MSFIL : public MSFIL_PAR
     MSFIL(PFIL pfil = pvNil);
     ~MSFIL(void);
 
-    virtual void ReportLine(PSZ psz);
-    virtual void Report(PSZ psz);
+    virtual void ReportLine(const PSZ psz);
+    virtual void Report(const PSZ psz);
     virtual bool FError(void);
 
     void SetFile(PFIL pfil);

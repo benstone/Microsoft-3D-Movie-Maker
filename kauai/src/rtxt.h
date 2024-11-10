@@ -144,7 +144,7 @@ class TXTB : public TXTB_PAR
     virtual void SetDxpDef(long dxp);
 
     virtual void FetchRgch(long cp, long ccp, achar *prgch);
-    virtual bool FReplaceRgch(void *prgch, long ccpIns, long cp, long ccpDel, ulong grfdoc = fdocUpdate);
+    virtual bool FReplaceRgch(const void *prgch, long ccpIns, long cp, long ccpDel, ulong grfdoc = fdocUpdate);
     virtual bool FReplaceFlo(PFLO pflo, bool fCopy, long cp, long ccpDel, short osk = koskCur,
                              ulong grfdoc = fdocUpdate);
     virtual bool FReplaceBsf(PBSF pbsfSrc, long cpSrc, long ccpSrc, long cpDst, long ccpDel, ulong grfdoc = fdocUpdate);
@@ -166,7 +166,8 @@ class TXTB : public TXTB_PAR
     virtual void CommitUndo(void);
     virtual void BumpCombineUndo(void);
 
-    virtual bool FFind(achar *prgch, long cch, long cpStart, long *pcpMin, long *pcpLim, bool fCaseSensitive = fFalse);
+    virtual bool FFind(const achar *prgch, long cch, long cpStart, long *pcpMin, long *pcpLim,
+                       bool fCaseSensitive = fFalse);
 
     virtual void ExportFormats(PCLIP pclip);
 };

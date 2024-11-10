@@ -70,7 +70,7 @@ enum
 // lookup table for keywords
 struct KEYTT
 {
-    PSZ pszKeyword;
+    const PSZ pszKeyword;
     long tt;
 };
 

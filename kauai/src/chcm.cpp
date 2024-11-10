@@ -133,7 +133,7 @@ void CHCM::MarkMem(void)
     Registers an error, prints error message with filename and line number.
     pszMessage may be nil.
 ***************************************************************************/
-void CHCM::_Error(long ert, PSZ pszMessage)
+void CHCM::_Error(long ert, const PSZ pszMessage)
 {
     AssertThis(0);
     AssertIn(ert, ertNil, ertLim);
@@ -144,14 +144,29 @@ void CHCM::_Error(long ert, PSZ pszMessage)
     _pchlx->GetStnFile(&stnFile);
     if (ertNil == ert)
     {
-        stn.FFormatSz(pszMessage == pvNil ? PszLit("%s(%d:%d) : warning") : PszLit("%s(%d:%d) : warning : %z"),
-                      &stnFile, _pchlx->LwLine(), _pchlx->IchLine(), pszMessage);
+        if (pszMessage == pvNil)
+        {
+            stn.FFormatSz(PszLit("%s(%d:%d) : warning"), &stnFile, _pchlx->LwLine(), _pchlx->IchLine());
+        }
+        else
+        {
+            stn.FFormatSz(PszLit("%s(%d:%d) : warning : %z"), &stnFile, _pchlx->LwLine(), _pchlx->IchLine(),
+                          pszMessage);
+        }
     }
     else
     {
         _cactError++;
-        stn.FFormatSz(pszMessage == pvNil ? PszLit("%s(%d:%d) : error : %z") : PszLit("%s(%d:%d) : error : %z : %z"),
-                      &stnFile, _pchlx->LwLine(), _pchlx->IchLine(), _mpertpsz[ert], pszMessage);
+        if (pszMessage == pvNil)
+        {
+            stn.FFormatSz(PszLit("%s(%d:%d) : error : %z"), &stnFile, _pchlx->LwLine(), _pchlx->IchLine(),
+                          _mpertpsz[ert]);
+        }
+        else
+        {
+            stn.FFormatSz(PszLit("%s(%d:%d) : error : %z : %z"), &stnFile, _pchlx->LwLine(), _pchlx->IchLine(),
+                          _mpertpsz[ert], pszMessage);
+        }
     }
 
     _pmsnkError->ReportLine(stn.Psz());

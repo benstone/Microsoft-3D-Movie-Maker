@@ -238,7 +238,7 @@ void TXTB::BumpCombineUndo(void)
     lower case. The pcpLim parameter is in case we support regular
     expressions in the future.
 ***************************************************************************/
-bool TXTB::FFind(achar *prgch, long cch, long cpMin, long *pcpMin, long *pcpLim, bool fCaseSensitive)
+bool TXTB::FFind(const achar *prgch, long cch, long cpMin, long *pcpMin, long *pcpLim, bool fCaseSensitive)
 {
     AssertThis(fobjAssertFull);
     AssertIn(cch, 1, kcbMax);
@@ -249,12 +249,16 @@ bool TXTB::FFind(achar *prgch, long cch, long cpMin, long *pcpMin, long *pcpLim,
     const long kcbCharSet = 256 / 8;
     byte grfbitUsed[kcbCharSet];
     long ibit;
-    achar *pch, *pchLast;
+    const achar *pch, *pchLast;
     achar ch;
     long cpT, cpMac;
 
     if (!fCaseSensitive)
-        LowerRgch(prgch, cch);
+    {
+        // TODO: Can't convert this string to lowercase as it's now constant
+        // LowerRgch(prgch, cch);
+        RawRtn();
+    }
 
     cch--;
     pchLast = prgch + cch;
@@ -733,7 +737,7 @@ void TXTB::SetDxpDef(long dxp)
     Replace cp to cp + ccpDel with ccpIns characters from prgch. If ccpIns
     is zero, prgch can be nil. The last character should never be replaced.
 ***************************************************************************/
-bool TXTB::FReplaceRgch(void *prgch, long ccpIns, long cp, long ccpDel, ulong grfdoc)
+bool TXTB::FReplaceRgch(const void *prgch, long ccpIns, long cp, long ccpDel, ulong grfdoc)
 {
     AssertThis(fobjAssertFull);
     AssertIn(ccpIns, 0, kcbMax);

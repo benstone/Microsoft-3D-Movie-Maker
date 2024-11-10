@@ -1224,7 +1224,7 @@ void GPT::ScrollRcs(RCS *prcs, long dxp, long dyp, GDD *pgdd)
 /***************************************************************************
     Draw some text.
 ***************************************************************************/
-void GPT::DrawRgch(achar *prgch, long cch, PTS pts, GDD *pgdd, DSF *pdsf)
+void GPT::DrawRgch(const achar *prgch, long cch, PTS pts, GDD *pgdd, DSF *pdsf)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcbMax);
@@ -1295,7 +1295,7 @@ void GPT::DrawRgch(achar *prgch, long cch, PTS pts, GDD *pgdd, DSF *pdsf)
 /***************************************************************************
     Get the bounding text rectangle.
 ***************************************************************************/
-void GPT::GetRcsFromRgch(RCS *prcs, achar *prgch, long cch, PTS pts, DSF *pdsf)
+void GPT::GetRcsFromRgch(RCS *prcs, const achar *prgch, long cch, PTS pts, DSF *pdsf)
 {
     AssertThis(0);
     AssertVarMem(prcs);
@@ -1460,7 +1460,7 @@ void GPT::_SetTextProps(DSF *pdsf)
         TA_CENTER, // tahCenter
         TA_RIGHT   // tahRight
     };
-    static _mptavw[] = {
+    static int _mptavw[] = {
         TA_TOP,      // tavTop
         TA_TOP,      // tavCenter + code
         TA_BASELINE, // tavBaseline

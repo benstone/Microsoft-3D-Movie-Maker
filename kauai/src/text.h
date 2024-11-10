@@ -129,7 +129,7 @@ class EDCB : public EDCB_PAR
     void ShowSel(bool fForceJustification = fTrue, long gin = kginDraw);
 
     virtual long IchMac(void) = 0;
-    virtual bool FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin = kginDraw) = 0;
+    virtual bool FReplace(const achar *prgch, long cchIns, long ich1, long ich2, long gin = kginDraw) = 0;
     virtual long CchFetch(achar *prgch, long ich, long cchWant) = 0;
 };
 
@@ -206,7 +206,7 @@ class EDSL : public EDSL_PAR
     static PEDSL PedslNew(PEDPAR pedpar);
 
     virtual long IchMac(void);
-    virtual bool FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin = kginDraw);
+    virtual bool FReplace(const achar *prgch, long cchIns, long ich1, long ich2, long gin = kginDraw);
     virtual long CchFetch(achar *prgch, long ich, long cchWant);
 
     // additional text APIs
@@ -244,16 +244,16 @@ class EDML : public EDML_PAR
     virtual bool _FLockLn(long ln, achar **pprgch, long *pcch);
     virtual void _UnlockLn(long ln, achar *prgch);
 
-    virtual long _ClnEstimate(achar *prgch, long cch);
+    virtual long _ClnEstimate(const achar *prgch, long cch);
     virtual long _LnReformat(long lnMin, long *pclnDel, long *pclnIns);
-    virtual bool _FReplaceCore(achar *prgch, long cchIns, long ich, long cchDel);
+    virtual bool _FReplaceCore(const achar *prgch, long cchIns, long ich, long cchDel);
 
   public:
     static PEDML PedmlNew(PEDPAR pedpar);
     ~EDML(void);
 
     virtual long IchMac(void);
-    virtual bool FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin = kginDraw);
+    virtual bool FReplace(const achar *prgch, long cchIns, long ich1, long ich2, long gin = kginDraw);
     virtual long CchFetch(achar *prgch, long ich, long cchWant);
 };
 

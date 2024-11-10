@@ -538,9 +538,9 @@ class GNV : public GNV_PAR
     void SetFontAlign(long tah, long tav);
     void GetDsf(DSF *pdsf);
     void SetDsf(DSF *pdsf);
-    void DrawRgch(achar *prgch, long cch, long xp, long yp, ACR acrFore = kacrBlack, ACR acrBack = kacrClear);
+    void DrawRgch(const achar *prgch, long cch, long xp, long yp, ACR acrFore = kacrBlack, ACR acrBack = kacrClear);
     void DrawStn(PSTN pstn, long xp, long yp, ACR acrFore = kacrBlack, ACR acrBack = kacrClear);
-    void GetRcFromRgch(RC *prc, achar *prgch, long cch, long xp = 0, long yp = 0);
+    void GetRcFromRgch(RC *prc, const achar *prgch, long cch, long xp = 0, long yp = 0);
     void GetRcFromStn(RC *prc, PSTN pstn, long xp = 0, long yp = 0);
 
     // bitmaps and pictures
@@ -733,8 +733,8 @@ class GPT : public GPT_PAR
     void DrawPoly(HQ hqoly, GDD *pgdd);
     void ScrollRcs(RCS *prcs, long dxp, long dyp, GDD *pgdd);
 
-    void DrawRgch(achar *prgch, long cch, PTS pts, GDD *pgdd, DSF *pdsf);
-    void GetRcsFromRgch(RCS *prcs, achar *prgch, long cch, PTS pts, DSF *pdsf);
+    void DrawRgch(const achar *prgch, long cch, PTS pts, GDD *pgdd, DSF *pdsf);
+    void GetRcsFromRgch(RCS *prcs, const achar *prgch, long cch, PTS pts, DSF *pdsf);
 
     void CopyPixels(PGPT pgptSrc, RCS *prcsSrc, RCS *prcsDst, GDD *pgdd);
     void DrawPic(PPIC ppic, RCS *prcs, GDD *pgdd);

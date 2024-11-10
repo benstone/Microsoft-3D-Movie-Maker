@@ -187,7 +187,8 @@ bool SPLC::_FEnsureMainDict(SC_LID sclid, PFNI pfni)
 
     if (pvNil != pfni)
     {
-        STN stn = sz;
+        STN stn;
+        stn.SetSz(sz);
 
         if (!pfni->FBuildFromPath(&stn))
             goto LError;

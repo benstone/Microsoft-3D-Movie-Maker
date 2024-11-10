@@ -436,7 +436,7 @@ bool APPB::_FFrameWndProc(HWND hwnd, uint wm, WPARAM wParam, LPARAM lw, long *pl
 
             pmmi = (MINMAXINFO *)lw;
 
-            *plwRet = DefFrameProc(hwnd, vwig.hwndClient, wm, wParam, (long)pmmi);
+            *plwRet = DefFrameProc(hwnd, vwig.hwndClient, wm, wParam, reinterpret_cast<LPARAM>(pmmi));
             dypFrame = GetSystemMetrics(SM_CYFRAME);
             dypScreen = GetSystemMetrics(SM_CYSCREEN);
             dypExtra = 0;
@@ -1001,7 +1001,7 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
     Put an alert up. Return which button was hit. Returns tYes for yes
     or ok; tNo for no; tMaybe for cancel.
 ***************************************************************************/
-tribool APPB::TGiveAlertSz(PSZ psz, long bk, long cok)
+tribool APPB::TGiveAlertSz(const PSZ psz, long bk, long cok)
 {
     AssertThis(0);
     AssertSz(psz);

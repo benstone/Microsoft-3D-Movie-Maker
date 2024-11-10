@@ -83,7 +83,7 @@ class SNE : public SNE_PAR
 
   public:
     static PSNE PsneNew(PEDPAR pedpar, PESLT peslt, PSTN pstnInit);
-    virtual bool FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin);
+    virtual bool FReplace(const achar *prgch, long cchIns, long ich1, long ich2, long gin);
 };
 
 /****************************************

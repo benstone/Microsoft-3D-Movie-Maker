@@ -1135,7 +1135,8 @@ bool APP::_FGenericError(FNI *path)
 ***************************************************************************/
 bool APP::_FGenericError(PSTZ message)
 {
-    STN stn = message;
+    STN stn;
+    stn.SetSz(message);
     return _FGenericError(&stn);
 }
 /***************************************************************************

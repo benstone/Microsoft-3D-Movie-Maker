@@ -739,7 +739,7 @@ PSNE SNE::PsneNew(PEDPAR pedpar, PESLT peslt, PSTN pstnInit)
     Trap the default FReplace to prevent illegal strings and to notify the
     ESLT that the text has changed.
 ***************************************************************************/
-bool SNE::FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin)
+bool SNE::FReplace(const achar *prgch, long cchIns, long ich1, long ich2, long gin)
 {
     AssertThis(0);
 

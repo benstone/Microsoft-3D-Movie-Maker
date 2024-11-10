@@ -261,7 +261,7 @@ class APPB : public APPB_PAR
     virtual long DypTextDef(void);
 
     // basic alert handling
-    virtual tribool TGiveAlertSz(PSZ psz, long bk, long cok);
+    virtual tribool TGiveAlertSz(const PSZ psz, long bk, long cok);
 
     // common commands
     virtual bool FCmdQuit(PCMD pcmd);

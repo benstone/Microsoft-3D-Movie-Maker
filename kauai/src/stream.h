@@ -56,7 +56,7 @@ class BSM : public BSM_PAR
         return _ibMac;
     }
     void FetchRgb(long ib, long cb, void *prgb);
-    bool FReplace(void *prgb, long cbIns, long ib, long cbDel);
+    bool FReplace(const void *prgb, long cbIns, long ib, long cbDel);
     bool FWriteRgb(PFLO pflo, long ib = 0);
     bool FWriteRgb(PBLCK pblck, long ib = 0);
 };
@@ -92,7 +92,7 @@ class BSF : public BSF_PAR
         return _ibMac;
     }
     void FetchRgb(long ib, long cb, void *prgb);
-    bool FReplace(void *prgb, long cbIns, long ib, long cbDel);
+    bool FReplace(const void *prgb, long cbIns, long ib, long cbDel);
     bool FReplaceFlo(PFLO pflo, bool fCopy, long ib, long cbDel);
     bool FReplaceBsf(PBSF pbsfSrc, long ibSrc, long cbSrc, long ibDst, long cbDel);
     bool FWriteRgb(PFLO pflo, long ib = 0);

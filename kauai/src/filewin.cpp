@@ -254,7 +254,7 @@ LRet:
 /***************************************************************************
     Write a block to the file.
 ***************************************************************************/
-bool FIL::FWriteRgb(void *pv, long cb, FP fp)
+bool FIL::FWriteRgb(const void *pv, long cb, FP fp)
 {
     AssertThis(0);
     AssertIn(cb, 0, kcbMax);

@@ -141,8 +141,8 @@ bool FValidSt(PST pst);
     bytes) and CchTot means the total number of characters including
     overhead.
 ***************************************************************************/
-long CchSz(PSZ psz);
-inline long CchTotSz(PSZ psz)
+long CchSz(const PSZ psz);
+inline long CchTotSz(const PSZ psz)
 {
     return CchSz(psz) + kcchExtraSz;
 }
@@ -182,14 +182,15 @@ inline PSZ PszStz(PSTZ pstz)
     comparison, including any length and/or terminating bytes and should
     be used only for internal sorting (for binary search etc).
 ***************************************************************************/
-bool FEqualRgch(achar *prgch1, long cch1, achar *prgch2, long cch2);
-ulong FcmpCompareRgch(achar *prgch1, long cch1, achar *prgch2, long cch2);
+bool FEqualRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2);
+ulong FcmpCompareRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2);
 
 /***************************************************************************
     User level (case insensitive, locale aware) comparison and sorting.
 ***************************************************************************/
-bool FEqualUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong grfstn = fstnIgnoreCase);
-ulong FcmpCompareUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong grfstn = fstnIgnoreCase);
+bool FEqualUserRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2, ulong grfstn = fstnIgnoreCase);
+ulong FcmpCompareUserRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2,
+                          ulong grfstn = fstnIgnoreCase);
 
 /***************************************************************************
     Upper and lower case utilies
@@ -263,7 +264,7 @@ inline achar ChLower(achar ch)
     Translation from one OS to another (eg, Win to Mac, single byte to
     unicode, etc).
 ***************************************************************************/
-long CchTranslateRgb(void *pvSrc, long cbSrc, short oskSrc, achar *prgchDst, long cchMaxDst);
+long CchTranslateRgb(const void *pvSrc, long cbSrc, short oskSrc, achar *prgchDst, long cchMaxDst);
 
 /***************************************************************************
     These APIs assert if osk specifies a different sized character than
@@ -334,15 +335,15 @@ class STN
         AssertThis(0);
     }
     STN(STN &stnSrc);
-    STN(PSZ pszSrc);
+    STN(const PSZ pszSrc);
 
     // pointers to the data - these should be considered readonly!
-    achar *Prgch(void)
+    const achar *Prgch(void)
     {
         AssertThis(0);
         return _rgch + 1;
     }
-    PSZ Psz(void)
+    const PSZ Psz(void)
     {
         AssertThis(0);
         return _rgch + 1;
@@ -369,8 +370,8 @@ class STN
         AssertThis(0);
         _rgch[0] = _rgch[1] = 0;
     }
-    void SetRgch(achar *prgchSrc, long cch);
-    void SetSz(PSZ pszSrc)
+    void SetRgch(const achar *prgchSrc, long cch);
+    void SetSz(const PSZ pszSrc)
     {
         SetRgch(pszSrc, CchSz(pszSrc));
     }
@@ -417,20 +418,20 @@ class STN
 
     // modifying the string
     void Delete(long ich, long cch = kcchMaxStn);
-    bool FAppendRgch(achar *prgchSrc, long cch);
+    bool FAppendRgch(const achar *prgchSrc, long cch);
     bool FAppendCh(achar chSrc)
     {
         return FAppendRgch(&chSrc, 1);
     }
-    bool FAppendSz(achar *pszSrc)
+    bool FAppendSz(const achar *pszSrc)
     {
-        return FAppendRgch(pszSrc, CchSz(pszSrc));
+        return FAppendRgch(pszSrc, CchSz((const PSZ)pszSrc));
     }
     bool FAppendStn(PSTN pstnSrc)
     {
         return FAppendRgch(pstnSrc->Prgch(), pstnSrc->Cch());
     }
-    bool FInsertRgch(long ich, achar *prgchSrc, long cch);
+    bool FInsertRgch(long ich, const achar *prgchSrc, long cch);
     bool FInsertCh(long ich, achar chSrc)
     {
         return FInsertRgch(ich, &chSrc, 1);
@@ -441,8 +442,8 @@ class STN
     }
 
     // for testing equality
-    bool FEqualRgch(achar *prgch, long cch);
-    bool FEqualSz(PSZ psz)
+    bool FEqualRgch(const achar *prgch, long cch);
+    bool FEqualSz(const PSZ psz)
     {
         return FEqualRgch(psz, CchSz(psz));
     }
@@ -450,8 +451,8 @@ class STN
     {
         return FEqualRgch(pstn->Prgch(), pstn->Cch());
     }
-    bool FEqualUserRgch(achar *prgch, long cch, ulong grfstn = fstnIgnoreCase);
-    bool FEqualUserSz(PSZ psz, ulong grfstn = fstnIgnoreCase)
+    bool FEqualUserRgch(const achar *prgch, long cch, ulong grfstn = fstnIgnoreCase);
+    bool FEqualUserSz(const PSZ psz, ulong grfstn = fstnIgnoreCase)
     {
         return FEqualUserRgch(psz, CchSz(psz), grfstn);
     }
@@ -478,8 +479,8 @@ class STN
     bool FRead(PBLCK pblck, long ib, long *pcbRead = pvNil);
 
     bool FFormat(PSTN pstnFormat, ...);
-    bool FFormatSz(PSZ pszFormat, ...);
-    bool FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData);
+    bool FFormatSz(const PSZ pszFormat, ...);
+    bool FFormatRgch(const achar *prgchFormat, long cchFormat, ulong *prgluData);
     bool FGetLw(long *plw, long lwBase = 0);
     bool FExpandControls(void);
 };

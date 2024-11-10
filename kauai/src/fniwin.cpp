@@ -133,7 +133,7 @@ bool FNI::FBuildFromPath(PSTN pstn, FTG ftgDef)
     AssertPo(pstn, 0);
 
     long cch;
-    achar *pchT;
+    const achar *pchT;
     SZ sz;
 
     if (kftgDir != ftgDef)
@@ -157,7 +157,7 @@ bool FNI::FBuildFromPath(PSTN pstn, FTG ftgDef)
     /* ask windows to parse the file name (resolves ".." and ".") and returns
        absolute filename "X:\FOO\BAR", relative to the current drive and
        directory if no drive or directory is given in pstn */
-    if ((cch = GetFullPathName(pstn->Psz(), kcchMaxSz, sz, &pchT)) == 0 || cch > kcchMaxSz)
+    if ((cch = GetFullPathName(pstn->Psz(), kcchMaxSz, sz, NULL)) == 0 || cch > kcchMaxSz)
     {
         goto LFail;
     }

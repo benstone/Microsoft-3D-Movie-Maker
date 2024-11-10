@@ -302,7 +302,7 @@ class GGB : public GGB_PAR
     void GetRgb(long iv, long bv, long cb, void *pv);
     void PutRgb(long iv, long bv, long cb, void *pv);
     void DeleteRgb(long iv, long bv, long cb);
-    bool FInsertRgb(long iv, long bv, long cb, void *pv);
+    bool FInsertRgb(long iv, long bv, long cb, const void *pv);
     bool FMoveRgb(long ivSrc, long bvSrc, long ivDst, long bvDst, long cb);
     void Merge(long ivSrc, long ivDst);
 };
@@ -336,7 +336,7 @@ class GG : public GG_PAR
     virtual void Delete(long iv);
 
     // new methods
-    bool FInsert(long iv, long cb, void *pv = pvNil, void *pvFixed = pvNil);
+    bool FInsert(long iv, long cb, const void *pv = pvNil, const void *pvFixed = pvNil);
     bool FCopyEntries(PGG pggSrc, long ivSrc, long ivDst, long cv);
     void Move(long ivSrc, long ivTarget);
     void Swap(long iv1, long iv2);
@@ -413,7 +413,7 @@ class GSTB : public GSTB_PAR
     }
     PST _Qst(long ibst);
     void _RemoveSt(long bst);
-    void _AppendRgch(achar *prgch, long cch);
+    void _AppendRgch(const achar *prgch, long cch);
     void _SwapBytesRgbst(void);
     void _TranslateGrst(short osk, bool fToCur);
     bool _FTranslateGrst(short osk);
@@ -430,8 +430,8 @@ class GSTB : public GSTB_PAR
     bool FEnsureSpace(long cstnAdd, long cchAdd, ulong grfgrp = fgrpNil);
     void SetMinGrow(long cstnAdd, long cchAdd);
 
-    virtual bool FAddRgch(achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil) = 0;
-    virtual bool FFindRgch(achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
+    virtual bool FAddRgch(const achar *prgch, long cch, const void *pvExtra = pvNil, long *pistn = pvNil) = 0;
+    virtual bool FFindRgch(const achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
 
     long IstnMac(void)
     {
@@ -443,7 +443,7 @@ class GSTB : public GSTB_PAR
     }
 
     bool FAddStn(PSTN pstn, void *pvExtra = pvNil, long *pistn = pvNil);
-    bool FPutRgch(long istn, achar *prgch, long cch);
+    bool FPutRgch(long istn, const achar *prgch, long cch);
     bool FPutStn(long istn, PSTN pstn);
     void GetRgch(long istn, achar *prgch, long cchMax, long *pcch);
     void GetStn(long istn, PSTN pstn);
@@ -451,7 +451,7 @@ class GSTB : public GSTB_PAR
 
     void GetExtra(long istn, void *pv);
     void PutExtra(long istn, void *pv);
-    bool FFindExtra(void *prgbFind, PSTN pstn = pvNil, long *pistn = pvNil);
+    bool FFindExtra(const void *prgbFind, PSTN pstn = pvNil, long *pistn = pvNil);
 };
 
 /****************************************
@@ -479,13 +479,13 @@ class GST : public GST_PAR
     PGST PgstDup(void);
 
     // methods required by parent class
-    virtual bool FAddRgch(achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil);
-    virtual bool FFindRgch(achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
+    virtual bool FAddRgch(const achar *prgch, long cch, const void *pvExtra = pvNil, long *pistn = pvNil);
+    virtual bool FFindRgch(const achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
     virtual void Delete(long istn);
 
     // new methods
-    bool FInsertRgch(long istn, achar *prgch, long cch, void *pvExtra = pvNil);
-    bool FInsertStn(long istn, PSTN pstn, void *pvExtra = pvNil);
+    bool FInsertRgch(long istn, const achar *prgch, long cch, const void *pvExtra = pvNil);
+    bool FInsertStn(long istn, PSTN pstn, const void *pvExtra = pvNil);
     void Move(long istnSrc, long istnDst);
 };
 
@@ -514,7 +514,7 @@ class AST : public AST_PAR
     PAST PastDup(void);
 
     // methods required by parent class
-    virtual bool FAddRgch(achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil);
+    virtual bool FAddRgch(const achar *prgch, long cch, const void *pvExtra = pvNil, long *pistn = pvNil);
     virtual void Delete(long istn);
 };
 

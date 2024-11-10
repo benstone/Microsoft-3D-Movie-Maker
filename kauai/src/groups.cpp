@@ -1600,7 +1600,7 @@ void GGB::DeleteRgb(long iv, long bv, long cb)
     Insert cb new bytes at location bv into the iv'th element.  pv may
     be nil.
 ***************************************************************************/
-bool GGB::FInsertRgb(long iv, long bv, long cb, void *pv)
+bool GGB::FInsertRgb(long iv, long bv, long cb, const void *pv)
 {
     AssertThis(0);
     AssertIn(iv, 0, _ivMac);
@@ -1906,7 +1906,7 @@ PGG GG::PggDup(void)
 /***************************************************************************
     Insert an element into the group.
 ***************************************************************************/
-bool GG::FInsert(long iv, long cb, void *pv, void *pvFixed)
+bool GG::FInsert(long iv, long cb, const void *pv, const void *pvFixed)
 {
     AssertThis(fobjAssertFull);
     AssertIn(cb, 0, kcbMax);

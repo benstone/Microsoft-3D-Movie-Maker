@@ -106,7 +106,7 @@ void BSM::FetchRgb(long ib, long cb, void *prgb)
     Replace the range [ib,ib + cbDel) with cbIns bytes from prgb.  If cbIns
     is zero, prgb may be nil.
 ***************************************************************************/
-bool BSM::FReplace(void *prgb, long cbIns, long ib, long cbDel)
+bool BSM::FReplace(const void *prgb, long cbIns, long ib, long cbDel)
 {
     AssertThis(fobjAssertFull);
     AssertIn(cbIns, 0, kcbMax);
@@ -532,7 +532,7 @@ bool BSF::FReplaceBsf(PBSF pbsfSrc, long ibSrc, long cbSrc, long ibDst, long cbD
 /***************************************************************************
     Replace the range [ib, ib + cbDel) with cbIns bytes from prgb.
 ***************************************************************************/
-bool BSF::FReplace(void *prgb, long cbIns, long ib, long cbDel)
+bool BSF::FReplace(const void *prgb, long cbIns, long ib, long cbDel)
 {
     AssertThis(fobjAssertFull);
     AssertIn(ib, 0, _ibMac + 1);

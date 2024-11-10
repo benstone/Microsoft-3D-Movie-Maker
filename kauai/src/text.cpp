@@ -1183,7 +1183,7 @@ long EDSL::_LnMac(void)
     Replace the characters between ich1 and ich2 with those in (prgch, cchIns).
     Calls _UpdateLn() to clean up the display.
 ***************************************************************************/
-bool EDSL::FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin)
+bool EDSL::FReplace(const achar *prgch, long cchIns, long ich1, long ich2, long gin)
 {
     AssertThis(0);
     AssertIn(cchIns, 0, kcbMax);
@@ -1449,7 +1449,7 @@ long EDML::_LnMac(void)
     Replace the characters between ich1 and ich2 with those in (prgch, cchIns).
     Calls _UpdateLn() to clean up the display.
 ***************************************************************************/
-bool EDML::FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin)
+bool EDML::FReplace(const achar *prgch, long cchIns, long ich1, long ich2, long gin)
 {
     AssertThis(fobjAssertFull);
     AssertIn(cchIns, 0, kcbMax);
@@ -1514,7 +1514,7 @@ bool EDML::FReplace(achar *prgch, long cchIns, long ich1, long ich2, long gin)
 /***************************************************************************
     Do a replace operation just on the text.
 ***************************************************************************/
-bool EDML::_FReplaceCore(achar *prgch, long cchIns, long ich, long cchDel)
+bool EDML::_FReplaceCore(const achar *prgch, long cchIns, long ich, long cchDel)
 {
     return _bsm.FReplace(prgch, cchIns, ich, cchDel);
 }
@@ -1522,7 +1522,7 @@ bool EDML::_FReplaceCore(achar *prgch, long cchIns, long ich, long cchDel)
 /***************************************************************************
     Estimate the number of new lines (exact for a simple EDML).
 ***************************************************************************/
-long EDML::_ClnEstimate(achar *prgch, long cch)
+long EDML::_ClnEstimate(const achar *prgch, long cch)
 {
     long cln;
     long ich;
