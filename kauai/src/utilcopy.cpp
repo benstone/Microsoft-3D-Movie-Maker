@@ -22,47 +22,7 @@ void FillPb(void *pv, long cb, byte b)
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv, cb);
 
-#ifdef IN_80386
-
-    __asm {
-        // Setup the registers for using REP STOS instruction to set memory.
-        // NOTE: Alignment does not effect the speed of STOS.
-        //
-        // edi -> memory to set
-        // eax = value to store in destination
-        // direction flag is clear for auto-increment
-
-		mov		edi,pv
-		mov		al,b
-
-            // set the longs
-		mov		ecx,cb
-		shr		ecx,2
-		jz		LBytes
-
-		shl		eax,8
-		mov		al,b
-		mov		ebx,eax
-		shl		eax,16
-		mov		ax,bx
-
-		rep		stosd
-
-                // set the extra bytes
-LBytes:
-		mov		ecx,cb
-		and		ecx,3
-		rep		stosb
-    }
-
-#else //! IN_80386
-
-    byte *pb;
-
-    for (pb = (byte *)pv; cb != 0; cb--)
-        *pb++ = b;
-
-#endif //! IN_80386
+    memset(pv, b, cb);
 }
 
 /***************************************************************************
@@ -73,38 +33,7 @@ void ClearPb(void *pv, long cb)
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv, cb);
 
-#ifdef IN_80386
-
-    __asm
-        {// Setup the registers for using REP STOS instruction to set memory.
-         // NOTE: Alignment does not effect the speed of STOS.
-         //
-         // edi -> memory to set
-         // eax = value to store in destination
-         // direction flag is clear for auto-increment
-
-		mov		edi,pv
-		xor		eax,eax
-
-             // clear the longs
-		mov		ecx,cb
-		shr		ecx,2
-		rep		stosd
-
-             // clear the extra bytes
-		mov		ecx,cb
-		and		ecx,3
-		rep		stosb
-        }
-
-#else //! IN_80386
-
-    byte *pb;
-
-    for (pb = (byte *)pv; cb != 0; cb--)
-        *pb++ = 0;
-
-#endif //! IN_80386
+    memset(pv, 0, cb);
 }
 
 /***************************************************************************
@@ -119,6 +48,7 @@ void ReversePb(void *pv, long cb)
 #ifdef IN_80386
 
     __asm {
+
         // esi - high end of block
         // edi - low end of block
         // ecx - number of bytes to swap
@@ -388,48 +318,7 @@ bool FEqualRgb(void *pv1, void *pv2, long cb)
     AssertPvCb(pv1, cb);
     AssertPvCb(pv2, cb);
 
-#ifdef IN_80386
-
-    tribool fRet;
-
-    __asm {
-        // edi -> memory to compare, first pointer
-        // esi -> memory to compare, second pointer
-
-		xor		eax,eax // assume false return
-		mov		edi,pv1
-		mov		esi,pv2
-
-            // compare longs
-		mov		ecx,cb // (ecx) = length in bytes
-		shr		ecx,2 // (ecx) = length in longs
-		repe	cmpsd // compare longs
-		jnz		LDone // mismatch, go report
-
-                // compare extra bytes
-		mov		ecx,cb
-		and		ecx,3 // (ecx) = length mod 4
-		repe	cmpsb // compare odd bytes
-		jnz		LDone // mismatch, go report
-
-		inc		eax // successful compare
-
-LDone:
-		mov		fRet,eax
-    }
-
-    return fRet;
-
-#else //! IN_80386
-
-    byte *pb1 = (byte *)pv1;
-    byte *pb2 = (byte *)pv2;
-
-    while (cb != 0 && *pb1++ == *pb2++)
-        cb--;
-    return cb == 0;
-
-#endif //! IN_80386
+    return memcmp(pv1, pv2, cb) == 0;
 }
 
 /***************************************************************************
@@ -527,37 +416,7 @@ void CopyPb(void *pv1, void *pv2, long cb)
     AssertPvCb(pv2, cb);
     Assert((byte *)pv1 + cb <= (byte *)pv2 || (byte *)pv2 + cb <= (byte *)pv1, "blocks overlap");
 
-#ifdef IN_80386
-
-    __asm
-        {// Setup the registers for using REP MOVS instruction to move memory.
-         //
-         // esi -> memory to move
-         // edi -> destination of move
-         // direction flag is clear for auto-increment
-		mov		esi,pv1
-		mov		edi,pv2
-
-             // move the longs
-		mov		ecx,cb
-		shr		ecx,2
-		rep		movsd
-
-             // move the extra bytes
-		mov		ecx,cb
-		and		ecx,3
-		rep		movsb
-        }
-
-#else //! IN_80386
-
-    byte *pb1 = (byte *)pv1;
-    byte *pb2 = (byte *)pv2;
-
-    while (cb-- != 0)
-        *pb2++ = *pb1++;
-
-#endif //! IN_80386
+    memcpy(pv2, pv1, cb);
 }
 
 /***************************************************************************
@@ -569,80 +428,5 @@ void BltPb(void *pv1, void *pv2, long cb)
     AssertPvCb(pv1, cb);
     AssertPvCb(pv2, cb);
 
-#ifdef IN_80386
-
-    __asm {
-        // Setup the registers for using REP MOVS instruction to move memory.
-        //
-        // esi -> memory to move
-        // edi -> destination of move
-        // direction flag is clear for auto-increment
-
-		mov		esi,pv1
-		mov		edi,pv2
-		mov		ecx,cb
-
-		cmp		esi,edi
-		ja		LForward // if source > destination
-		je		LDone // if source == destination
-
-                // source < destination, see if they overlap
-		mov		eax,edi
-		sub		eax,esi
-		cmp		ecx,eax
-		jbe		LForward
-
-            // they overlap with source < destination, so have to do a backward copy
-		std
-		add		esi,ecx
-		add		edi,ecx
-		dec		esi
-		dec		edi
-
-            // move the extra bytes
-		and		ecx,3
-		rep		movsb
-
-            // move the longs
-		mov		ecx,cb
-		shr		ecx,2
-		jz		LDone
-		sub		esi,3
-		sub		edi,3
-		rep		movsd
-		jmp		LDone
-
-LForward:
-            // move the longs
-		shr		ecx,2
-		rep		movsd
-
-            // move the extra bytes
-		mov		ecx,cb
-		and		ecx,3
-		rep		movsb
-
-LDone:
-		cld
-    }
-
-#else //! IN_80386
-
-    byte *pb1 = (byte *)pv1;
-    byte *pb2 = (byte *)pv2;
-
-    if (pb1 > pb2)
-    {
-        while (cb-- != 0)
-            *pb2++ = *pb1++;
-    }
-    else
-    {
-        pb1 += cb;
-        pb2 += cb;
-        while (cb-- != 0)
-            *--pb2 = *--pb1;
-    }
-
-#endif //! IN_80386
+    memmove(pv2, pv1, cb);
 }
