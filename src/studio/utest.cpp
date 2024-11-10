@@ -35,7 +35,7 @@ ASSERTNAME
 // The current feeling is that we don't have the resources to tweak the
 // thresholds and verify that this gives us the result we want on all
 // computers.
-//#define PERF_TEST
+// #define PERF_TEST
 
 // Duration to display homelogo
 const ulong kdtsHomeLogo = 4 * kdtsSecond;
@@ -578,7 +578,7 @@ bool APP::_FEnsureAudio(void)
 #ifdef WIN
     long cwod; // count of wave-out devices
     long cmod; // count of midi-out devices
-    bool fShowMessage;
+    long fShowMessage;
     PDLG pdlg;
 
     cwod = waveOutGetNumDevs();
@@ -791,7 +791,7 @@ bool APP::_FEnsureDisplayResolution(void)
 
     PDLG pdlg;
     long idit;
-    bool fSwitchRes;
+    long fSwitchRes;
     bool fNoValue;
     long tsResize;
 
@@ -2009,12 +2009,12 @@ bool APP::_FDetermineIfSlowCPU(void)
 {
     AssertBaseThis(0);
 
-    bool fSlowCPU;
+    long fSlowCPU;
 
     // If user has a saved preference, read and use that
-    if (FGetSetRegKey(kszBetterSpeedValue, &fSlowCPU, size(bool), fregNil))
+    if (FGetSetRegKey(kszBetterSpeedValue, &fSlowCPU, size(fSlowCPU), fregNil))
     {
-        _fSlowCPU = fSlowCPU;
+        _fSlowCPU = (bool)fSlowCPU;
         return fTrue;
     }
 
@@ -3331,8 +3331,8 @@ bool APP::FCmdInfo(PCMD pcmd)
     }
     if (fSaveChanges)
     {
-        bool fSlowCPU = _fSlowCPU;
-        FGetSetRegKey(kszBetterSpeedValue, &fSlowCPU, size(bool), fregSetKey);
+        long fSlowCPU = _fSlowCPU;
+        FGetSetRegKey(kszBetterSpeedValue, &fSlowCPU, size(fSlowCPU), fregSetKey);
     }
 
     fRunInWindowNew = pdlg->LwGetRadio(iditWindowModeInfo);
@@ -3375,7 +3375,7 @@ bool APP::FCmdInfo(PCMD pcmd)
     }
     if (fSaveChanges)
     {
-        bool fSwitchRes = !_fRunInWindow;
+        long fSwitchRes = !_fRunInWindow;
 
         FGetSetRegKey(kszSwitchResolutionValue, &fSwitchRes, size(fSwitchRes), fregSetKey);
     }
