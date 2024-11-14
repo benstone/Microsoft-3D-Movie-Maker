@@ -62,6 +62,10 @@ class KWA : public KWA_PAR
 #define kszUserDataValue PszLit("UserData")
 #define kszBetterSpeedValue PszLit("BetterSpeed")
 
+// If fTrue, play the startup sound and wait for it to finish.
+#define kszStartupSoundValue PszLit("StartupSound")
+#define kfStartupSoundDefault fTrue
+
 // FGetSetRegKey flags
 enum
 {

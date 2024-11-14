@@ -43,8 +43,7 @@
       "name": "x86:msvc:debug",
       "inherits": "msvc:x86:base",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "ENABLE_FAST_STARTUP": "ON"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {

@@ -174,6 +174,10 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
     FNI fniUserDoc;
     long fFirstTimeUser;
 
+    // Load startup preferences
+    long fStartupSound = kfStartupSoundDefault;
+    (void)FGetSetRegKey(kszStartupSoundValue, &fStartupSound, size(fStartupSound), fregNil);
+
     // Only allow one copy of 3DMM to run at a time:
     if (_FAppAlreadyRunning())
     {
@@ -315,10 +319,11 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
         goto LFail;
     }
 
-#ifndef ENABLE_FAST_STARTUP
-    while (TsCurrent() - tsHomeLogo < kdtsHomeLogo)
-        ; // spin until home logo has been up long enough
-#endif    // ENABLE_FAST_STARTUP
+    if (fStartupSound)
+    {
+        while (TsCurrent() - tsHomeLogo < kdtsHomeLogo)
+            ; // spin until home logo has been up long enougH
+    }
 
     if (!_FShowSplashScreen())
     {
@@ -328,14 +333,15 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
     }
     tsSplashScreen = TsCurrent();
 
-#ifndef ENABLE_FAST_STARTUP
-    if (!_FPlaySplashSound())
+    if (fStartupSound)
     {
-        _FGenericError(PszLit("_FPlaySplashSound"));
-        _fDontReportInitFailure = fTrue;
-        goto LFail;
+        if (!_FPlaySplashSound())
+        {
+            _FGenericError(PszLit("_FPlaySplashSound"));
+            _fDontReportInitFailure = fTrue;
+            goto LFail;
+        }
     }
-#endif // ENABLE_FAST_STARTUP
 
     if (!_FGetUserName())
     {
@@ -365,10 +371,11 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
         goto LFail;
     }
 
-#ifndef ENABLE_FAST_STARTUP
-    while (TsCurrent() - tsSplashScreen < kdtsSplashScreen)
-        ;                   // spin until splash screen has been up long enough
-#endif                      // ENABLE_FAST_STARTUP
+    if (fStartupSound)
+    {
+        while (TsCurrent() - tsSplashScreen < kdtsSplashScreen)
+            ; // spin until splash screen has been up long enough
+    }
     Pkwa()->SetMbmp(pvNil); // bring down splash screen
 
     // If the user specified a doc on the command line, go straight
