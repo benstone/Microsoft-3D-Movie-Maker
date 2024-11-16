@@ -794,12 +794,19 @@ bool BWLD::FWriteBmp(PFNI pfni)
 {
     AssertPo(pfni, 0);
 
-    bool fRet;
+    bool fRet = fFalse;
+    PGL pgpt = pvNil;
     RC rc;
 
-    fRet = FWriteBitmap(pfni, _pgptWorking->PrgbLockPixels(&rc), GPT::PglclrGetPalette(), _rcBuffer.Dxp(),
-                        _rcBuffer.Dyp());
-    _pgptWorking->Unlock();
+    pgpt = GPT::PglclrGetPalette();
+    AssertPo(pgpt, 0);
+    if (pgpt != pvNil)
+    {
+        fRet = FWriteBitmap(pfni, _pgptWorking->PrgbLockPixels(&rc), pgpt, _rcBuffer.Dxp(), _rcBuffer.Dyp());
+        _pgptWorking->Unlock();
+        ReleasePpo(&pgpt);
+    }
+
     return fRet;
 }
 
