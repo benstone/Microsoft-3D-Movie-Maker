@@ -14,10 +14,10 @@ jobs:
         shell: pwsh
         run: |
           pushvc (invoke-vcvars -TargetArch x86 -HostArch AMD64)
-          cmake --preset x86:msvc:debug
-          cmake --build build
+          cmake --preset x86-msvc-debug
+          cmake --build build/x86-msvc-debug
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: 3D-Movie-Maker
-          path: build/
+          path: build/x86-msvc-debug

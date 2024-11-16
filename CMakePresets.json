@@ -5,11 +5,11 @@
       "name": "base",
       "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build",
-      "installDir": "${sourceDir}/dist"
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "installDir": "${sourceDir}/dist/${presetName}"
     },
     {
-      "name": "msvc:base",
+      "name": "msvc-base",
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
@@ -22,8 +22,8 @@
       }
     },
     {
-      "name": "msvc:x86:base",
-      "inherits": "msvc:base",
+      "name": "msvc-x86-base",
+      "inherits": "msvc-base",
       "hidden": true,
       "architecture": {
         "value": "x86",
@@ -32,32 +32,32 @@
     },
     {
       "displayName": "MSVC x86 Release",
-      "name": "x86:msvc:release",
-      "inherits": "msvc:x86:base",
+      "name": "x86-msvc-release",
+      "inherits": "msvc-x86-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
       "displayName": "MSVC x86 Debug",
-      "name": "x86:msvc:debug",
-      "inherits": "msvc:x86:base",
+      "name": "x86-msvc-debug",
+      "inherits": "msvc-x86-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
       "displayName": "MSVC x86 RelWithDebInfo",
-      "name": "x86:msvc:relwithdebinfo",
-      "inherits": "msvc:x86:base",
+      "name": "x86-msvc-relwithdebinfo",
+      "inherits": "msvc-x86-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
       "displayName": "MSVC x86 MinSizeRel",
-      "name": "x86:msvc:minsizerel",
-      "inherits": "msvc:x86:base",
+      "name": "x86-msvc-minsizerel",
+      "inherits": "msvc-x86-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "MinSizeRel"
       }
