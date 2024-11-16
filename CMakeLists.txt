@@ -66,7 +66,7 @@ endif()
 
 # Configure version header
 execute_process(
-  COMMAND git describe --tags
+  COMMAND git describe --tags --always
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
   OUTPUT_VARIABLE GIT_VERSION
   OUTPUT_STRIP_TRAILING_WHITESPACE
