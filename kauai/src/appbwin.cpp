@@ -890,7 +890,6 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
             plw = (long *)*plw;
         }
     }
-#endif // WIN && IN_80386
 
     for (cact = 0; cact < 2; cact++)
     {
@@ -928,6 +927,7 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
             stn1 = stn2;
         }
     }
+#endif // WIN && IN_80386
 
     OutputDebugString(stn0.Psz());
     OutputDebugString(PszLit("\n"));
