@@ -14,10 +14,10 @@ jobs:
         shell: pwsh
         run: |
           pushvc (invoke-vcvars -TargetArch x86 -HostArch AMD64)
-          cmake --preset x86-msvc-debug
-          cmake --build build/x86-msvc-debug
+          cmake --preset x86-msvc-relwithdebinfo -D3DMM_PACKAGE_WIX=OFF
+          cmake --build build/x86-msvc-relwithdebinfo --target dist
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: 3D-Movie-Maker
-          path: build/x86-msvc-debug
+          path: build/x86-msvc-relwithdebinfo
