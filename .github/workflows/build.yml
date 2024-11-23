@@ -6,7 +6,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install VCVars
         shell: pwsh
         run: Install-Module -Name VCVars -Force
@@ -17,7 +17,7 @@ jobs:
           cmake --preset x86-msvc-debug
           cmake --build build/x86-msvc-debug
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: 3D-Movie-Maker
           path: build/x86-msvc-debug
