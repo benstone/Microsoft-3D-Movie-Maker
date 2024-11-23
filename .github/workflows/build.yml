@@ -20,4 +20,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 3D-Movie-Maker
-          path: build/x86-msvc-relwithdebinfo
+          path: |
+            build/x86-msvc-relwithdebinfo
+            !build/x86-msvc-relwithdebinfo/_CPack_Packages
+            !build/x86-msvc-relwithdebinfo/chomp/studio/*.chk
